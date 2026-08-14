@@ -1,39 +1,9 @@
 import Link from "next/link";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
-import { SourceStream } from "@/components/SourceStream";
 import { StarMark } from "@/components/StarMark";
-import { careServices, guideArticles } from "@/lib/content";
-
-const pillars = [
-  {
-    index: "01",
-    eyebrow: "CARE",
-    title: "전문적인 상담과 심리서비스",
-    copy: "말로 설명하기 어려운 마음도 관계 안에서 안전하게 만나고 이해합니다.",
-    href: "/care",
-    link: "상담 알아보기",
-    tone: "navy",
-  },
-  {
-    index: "02",
-    eyebrow: "GUIDE",
-    title: "누구나 이해할 수 있는 심리학",
-    copy: "복잡한 심리학을 상담을 선택하고 일상을 돌보는 데 쓸 수 있는 언어로 번역합니다.",
-    href: "/guide",
-    link: "가이드 읽기",
-    tone: "apricot",
-  },
-  {
-    index: "03",
-    eyebrow: "INSIGHT RELAY",
-    title: "상담과 상담 사이를 잇는 연결",
-    copy: "한 회기에서 발견한 것을 다음 회기까지 놓치지 않도록 경험의 흐름을 이어갑니다.",
-    href: "/insight-relay",
-    link: "서비스 알아보기",
-    tone: "lavender",
-  },
-];
+import { brandPillars } from "@/lib/brand";
+import { careServices, guideArticles, guideCategories } from "@/lib/content";
 
 export default function Home() {
   return (
@@ -59,8 +29,8 @@ export default function Home() {
                 <em>살아가는 데 도움이 되도록.</em>
               </h1>
               <p>
-                새벽별은 상담하고, 연결하고,
-                <br className="desktop-break" /> 심리학을 삶에서 사용할 수 있는 형태로 만듭니다.
+                새벽별은 마음을 이해하고 연결하는 일을 합니다.
+                <br className="desktop-break" /> 심리학이 상담실을 넘어 삶에서도 쓰일 수 있도록.
               </p>
               <div className="button-row">
                 <Link className="button button-primary" href="/care">
@@ -111,7 +81,7 @@ export default function Home() {
             </div>
 
             <div className="pillar-grid">
-              {pillars.map((pillar) => (
+              {brandPillars.map((pillar) => (
                 <Link className={`pillar-card tone-${pillar.tone}`} href={pillar.href} key={pillar.eyebrow}>
                   <div className="pillar-top">
                     <span>{pillar.index}</span>
@@ -119,7 +89,8 @@ export default function Home() {
                   </div>
                   <div>
                     <span className="pillar-eyebrow">{pillar.eyebrow}</span>
-                    <h3>{pillar.title}</h3>
+                    <h3>{pillar.concept}</h3>
+                    <strong className="pillar-title">{pillar.title}</strong>
                     <p>{pillar.copy}</p>
                   </div>
                   <span className="text-link">{pillar.link}</span>
@@ -165,7 +136,7 @@ export default function Home() {
           </div>
           <div className="shell relay-feature-grid">
             <div className="relay-title">
-              <span className="relay-badge">IN DEVELOPMENT · 2026</span>
+              <span className="relay-badge">BETWEEN-SESSION SUPPORT</span>
               <h2>
                 상담은 한 회기로 끝나지만,
                 <br />
@@ -177,15 +148,15 @@ export default function Home() {
                 <StarMark size="medium" />
                 <div>
                   <strong>Insight Relay</strong>
-                  <span>by 새벽별</span>
+                  <span>Between-session support</span>
                 </div>
               </div>
               <p>
-                상담에서 발견한 것을 일상으로 가져가고, 다음 상담까지의 경험을 이어가는
-                새벽별의 between-session support.
+                상담에서 발견한 것을 일상으로 가져가고,
+                다음 상담까지의 경험을 이어갈 수 있도록 돕습니다.
               </p>
               <Link className="light-link" href="/insight-relay">
-                Insight Relay 알아보기 <span aria-hidden="true">↗</span>
+                Insight Relay 알아보기 <span aria-hidden="true">→</span>
               </Link>
             </div>
           </div>
@@ -202,7 +173,7 @@ export default function Home() {
             </div>
             <div className="service-list">
               {careServices.slice(0, 5).map((service, index) => (
-                <Link className="service-row" href={`/care#${service.id}`} key={service.id}>
+                <Link className="service-row" href={`/care/${service.id}`} key={service.id}>
                   <span className="service-index">0{index + 1}</span>
                   <h3>{service.title}</h3>
                   <p>{service.short}</p>
@@ -222,6 +193,13 @@ export default function Home() {
               </div>
               <Link className="text-link arrow-link" href="/guide">GUIDE 전체 보기 <span>→</span></Link>
             </div>
+            <nav className="guide-category-nav" aria-label="GUIDE 카테고리">
+              {guideCategories.filter((category) => category !== "전체").map((category) => (
+                <Link href={`/guide?category=${encodeURIComponent(category)}#guide-archive`} key={category}>
+                  {category}
+                </Link>
+              ))}
+            </nav>
             <div className="guide-card-grid">
               {guideArticles.slice(0, 3).map((article, index) => (
                 <Link className="guide-card" href={`/guide/${article.slug}`} key={article.slug}>
@@ -242,8 +220,6 @@ export default function Home() {
           </div>
         </section>
 
-        <SourceStream compact />
-
         <section className="closing-cta">
           <div className="shell closing-grid">
             <div>
@@ -261,3 +237,4 @@ export default function Home() {
     </>
   );
 }
+

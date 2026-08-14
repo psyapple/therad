@@ -6,9 +6,9 @@ type BrandLogoProps = {
 };
 
 const sizes = {
-  header: { width: 58, height: 59 },
-  footer: { width: 82, height: 83 },
-  feature: { width: 280, height: 283 },
+  header: { width: 60, height: 40 },
+  footer: { width: 72, height: 48 },
+  feature: { width: 360, height: 240 },
 };
 
 export function BrandLogo({ size = "header", priority = false }: BrandLogoProps) {
@@ -16,12 +16,13 @@ export function BrandLogo({ size = "header", priority = false }: BrandLogoProps)
   return (
     <span className={`brand-logo brand-logo-${size}`}>
       <Image
-        src="/brand-logo.png"
+        src="/brand-symbol.png"
         width={dimensions.width}
         height={dimensions.height}
-        alt="새벽별 심리상담센터 로고"
+        alt="새벽별 별 캐릭터 심벌"
         priority={priority}
       />
     </span>
   );
 }
+

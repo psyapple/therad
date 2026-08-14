@@ -44,7 +44,7 @@ export default function CarePage() {
               {careServices.map((service, index) => (
                 <article className="care-detail" id={service.id} key={service.id}>
                   <div className="care-detail-head"><span>0{index + 1}</span><small>{service.english}</small></div>
-                  <div className="care-detail-main"><h2>{service.title}</h2><p>{service.description}</p></div>
+                  <div className="care-detail-main"><h2>{service.title}</h2><p>{service.description}</p><Link className="text-link care-detail-link" href={`/care/${service.id}`}>자세히 보기 <span>→</span></Link></div>
                   <div className="care-detail-for"><strong>이런 때 살펴볼 수 있어요</strong><ul>{service.forWhom.map((item) => <li key={item}>{item}</li>)}</ul><small>{service.note}</small></div>
                 </article>
               ))}
@@ -78,3 +78,4 @@ export default function CarePage() {
     </>
   );
 }
+

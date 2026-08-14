@@ -21,9 +21,10 @@ test("renders the finished Korean brand home", async () => {
   assert.match(html, /Insight Relay/);
   assert.match(html, /CARE/);
   assert.match(html, /GUIDE/);
-  assert.match(html, /새벽별 심리상담센터/);
-  assert.match(html, /일상의 돌봄\. 안전기지/);
-  assert.match(html, /심리상담 가이드 _by 새벽\/아오리/);
+  assert.match(html, /Psychology for Everyday Life/);
+  assert.match(html, /새벽별은 마음을 이해하고 연결하는 일을 합니다/);
+  assert.match(html, /상담 시작하기/);
+  assert.doesNotMatch(html, /새벽별이 실제로 쓰고 있는 기록/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|react-loading-skeleton/i);
 });
 
@@ -39,3 +40,20 @@ test("renders core product routes", async () => {
     assert.match(await response.text(), new RegExp(text));
   }
 });
+
+test("renders connected CARE and GUIDE detail routes", async () => {
+  const careResponse = await render("/care/trauma");
+  assert.equal(careResponse.status, 200);
+  const careHtml = await careResponse.text();
+  assert.match(careHtml, /트라우마·애착 상담/);
+  assert.match(careHtml, /조금 더 알아보고 싶다면/);
+  assert.match(careHtml, /애착과 트라우마는 어떻게 연결될까요/);
+
+  const guideResponse = await render("/guide/attachment-and-trauma");
+  assert.equal(guideResponse.status, 200);
+  const guideHtml = await guideResponse.text();
+  assert.match(guideHtml, /관련해서 읽어보세요/);
+  assert.match(guideHtml, /새벽별에서 이용할 수 있어요/);
+  assert.match(guideHtml, /트라우마·애착 상담/);
+});
+

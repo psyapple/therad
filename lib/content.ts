@@ -63,8 +63,14 @@ export type GuideArticle = {
   categoryEn: string;
   title: string;
   description: string;
+  topics: string[];
+  relatedServices: CareService["id"][];
+  sourcePlatform: "website" | "naver-blog" | "instagram" | "notion";
+  originalUrl: string | null;
+  publishedAt: string;
+  updatedAt: string;
+  featured: boolean;
   readTime: string;
-  updated: string;
   intro: string;
   sections: GuideSection[];
   takeaway: string;
@@ -77,8 +83,14 @@ export const guideArticles: GuideArticle[] = [
     categoryEn: "STARTING THERAPY",
     title: "나에게 맞는 상담자를 고르는 기준",
     description: "자격, 전문 분야, 첫 만남에서 확인할 것까지. 막막한 선택을 조금 더 분명하게 만드는 질문들.",
+    topics: ["상담자 선택", "전문성", "첫 상담", "상담 관계"],
+    relatedServices: ["individual", "couple", "child-parent", "trauma"],
+    sourcePlatform: "website",
+    originalUrl: null,
+    publishedAt: "2026-08-13",
+    updatedAt: "2026-08-13",
+    featured: true,
     readTime: "7분",
-    updated: "2026.08.13",
     intro: "상담자를 찾는 일은 마음이 힘든 와중에 또 하나의 어려운 선택을 감당하는 일입니다. 유명한 사람보다 중요한 것은, 적절한 훈련을 받았고 내 어려움을 함께 다룰 준비가 되어 있는 사람인지 확인하는 것입니다.",
     sections: [
       { heading: "자격의 이름보다 훈련 과정을 확인하세요", paragraphs: ["‘상담’, ‘심리’, ‘치료’라는 말은 매우 넓게 쓰입니다. 자격명 하나만 보기보다 어떤 전공과 수련을 거쳤는지, 지속적으로 지도감독을 받는지, 윤리규정을 따르는 전문 학회에 소속되어 있는지 살펴보세요."] },
@@ -93,8 +105,14 @@ export const guideArticles: GuideArticle[] = [
     categoryEn: "FIRST SESSION",
     title: "첫 상담 전, 무엇을 준비하면 좋을까요?",
     description: "잘 말해야 한다는 부담 없이 첫 회기를 시작하기 위해 알아두면 좋은 것들.",
+    topics: ["첫 상담", "상담 준비", "초기 상담"],
+    relatedServices: ["individual", "couple", "child-parent"],
+    sourcePlatform: "website",
+    originalUrl: null,
+    publishedAt: "2026-08-13",
+    updatedAt: "2026-08-13",
+    featured: true,
     readTime: "5분",
-    updated: "2026.08.13",
     intro: "처음 상담실에 들어가기 전에는 ‘어디서부터 말해야 하지?’, ‘내 문제가 상담받을 만큼 큰가?’ 같은 생각이 들 수 있습니다. 첫 상담은 정답을 말하는 자리가 아니라, 무엇이 필요한지 함께 알아가는 시작입니다.",
     sections: [
       { heading: "이야기를 완벽하게 정리하지 않아도 됩니다", paragraphs: ["최근 가장 자주 떠오르는 장면, 몸이 힘들어지는 순간, 반복해서 걱정되는 것 중 하나만 가져와도 충분합니다. 말이 엉키거나 기억이 잘 나지 않는 것도 상담에서 다룰 수 있는 중요한 정보입니다."] },
@@ -109,8 +127,14 @@ export const guideArticles: GuideArticle[] = [
     categoryEn: "USING THERAPY",
     title: "상담이 잘 되고 있는지 확인하는 법",
     description: "변화가 더디게 느껴질 때 살펴볼 신호와 상담자에게 꺼내볼 질문을 정리했습니다.",
+    topics: ["상담 과정", "변화", "상담 목표", "상담 관계"],
+    relatedServices: ["individual", "couple", "trauma"],
+    sourcePlatform: "website",
+    originalUrl: null,
+    publishedAt: "2026-08-13",
+    updatedAt: "2026-08-13",
+    featured: true,
     readTime: "6분",
-    updated: "2026.08.13",
     intro: "상담의 변화는 늘 선명한 상승선으로 나타나지 않습니다. 힘든 이야기를 다루며 잠시 더 예민해지기도 하고, 큰 사건보다 작은 선택과 관계의 차이로 먼저 드러나기도 합니다.",
     sections: [
       { heading: "작은 변화도 변화입니다", bullets: ["감정을 알아차리는 시간이 조금 빨라졌다", "반복되는 상황에서 잠깐 멈출 수 있게 되었다", "필요한 것을 말하거나 경계를 세우는 순간이 생겼다", "나를 비난하는 대신 이해하려는 문장이 떠오른다"] },
@@ -125,8 +149,14 @@ export const guideArticles: GuideArticle[] = [
     categoryEn: "ATTACHMENT",
     title: "애착과 트라우마는 어떻게 연결될까요",
     description: "가까워지고 싶은 마음과 다치지 않으려는 마음이 동시에 움직이는 이유.",
+    topics: ["애착", "트라우마", "관계", "안전감"],
+    relatedServices: ["trauma", "individual", "couple"],
+    sourcePlatform: "website",
+    originalUrl: null,
+    publishedAt: "2026-08-13",
+    updatedAt: "2026-08-13",
+    featured: false,
     readTime: "8분",
-    updated: "2026.08.13",
     intro: "애착은 누군가에게 의존적인 성격을 뜻하지 않습니다. 위험할 때 연결을 찾고, 안전할 때 세상을 탐색하도록 돕는 인간의 기본적인 생존 체계입니다.",
     sections: [
       { heading: "관계는 안전을 배우는 첫 환경입니다", paragraphs: ["필요할 때 누군가가 반응해주고, 감정을 함께 견뎌주는 경험이 반복되면 몸과 마음은 ‘도움을 구해도 된다’는 예측을 만듭니다. 반대로 연결이 일관되지 않거나 위협적이었다면 혼자 버티거나 관계를 강하게 확인하는 방식이 필요했을 수 있습니다."] },
@@ -141,8 +171,14 @@ export const guideArticles: GuideArticle[] = [
     categoryEn: "AEDP",
     title: "AEDP: 감정을 피하지 않고 변화로 가는 치료",
     description: "가속경험적 역동치료가 안전한 관계와 감정의 경험을 중요하게 보는 이유.",
+    topics: ["AEDP", "감정", "치료 관계", "애착"],
+    relatedServices: ["individual", "trauma"],
+    sourcePlatform: "website",
+    originalUrl: null,
+    publishedAt: "2026-08-13",
+    updatedAt: "2026-08-13",
+    featured: false,
     readTime: "7분",
-    updated: "2026.08.13",
     intro: "AEDP는 어려움을 분석하는 데서 멈추지 않고, 안전한 치료 관계 안에서 감정을 실제로 경험하고 변화의 순간을 함께 알아차리는 심리치료 접근입니다.",
     sections: [
       { heading: "혼자 견디지 않도록 돕습니다", paragraphs: ["힘든 감정을 느끼는 것만큼이나 그것을 혼자 감당해야 한다는 느낌이 사람을 압도합니다. AEDP는 상담자가 정서적으로 함께 있다는 경험을 분명하게 만들며, 내담자가 감정에 가까이 갈 수 있는 안전을 세웁니다."] },
@@ -157,8 +193,14 @@ export const guideArticles: GuideArticle[] = [
     categoryEn: "SOMATIC PSYCHOLOGY",
     title: "머리로는 괜찮은데 몸은 왜 긴장할까요",
     description: "신체 기반 심리치료가 몸의 감각과 신경계 반응을 함께 살피는 이유.",
+    topics: ["신체 기반 심리치료", "신경계", "긴장", "SP", "트라우마"],
+    relatedServices: ["trauma", "individual"],
+    sourcePlatform: "website",
+    originalUrl: null,
+    publishedAt: "2026-08-13",
+    updatedAt: "2026-08-13",
+    featured: false,
     readTime: "6분",
-    updated: "2026.08.13",
     intro: "상황이 끝났다는 것을 알아도 심장이 빨리 뛰고, 어깨가 굳고, 숨이 얕아질 수 있습니다. 몸은 말보다 빠르게 위험을 판단하고 우리를 지키기 때문입니다.",
     sections: [
       { heading: "몸의 반응은 의지 부족이 아닙니다", paragraphs: ["싸우기, 도망가기, 얼어붙기 같은 생존 반응은 생각으로 선택하기 전에 시작될 수 있습니다. ‘왜 아직도 이러지?’라고 비난하기보다 지금 몸이 무엇을 위험으로 감지했는지 살펴보는 것이 출발점입니다."] },
@@ -173,8 +215,14 @@ export const guideArticles: GuideArticle[] = [
     categoryEn: "ASSESSMENT",
     title: "심리검사는 나를 얼마나 설명할 수 있을까요",
     description: "검사 결과를 낙인이 아니라 더 좋은 질문을 만드는 자료로 사용하는 법.",
+    topics: ["심리검사", "심리평가", "해석상담", "검사 결과"],
+    relatedServices: ["assessment"],
+    sourcePlatform: "website",
+    originalUrl: null,
+    publishedAt: "2026-08-13",
+    updatedAt: "2026-08-13",
+    featured: false,
     readTime: "6분",
-    updated: "2026.08.13",
     intro: "심리검사는 나를 한 문장으로 판정하는 도구가 아닙니다. 일정한 조건에서 드러난 반응을 바탕으로 현재의 정서, 성격, 인지와 관계 패턴을 가설로 이해하는 과정입니다.",
     sections: [
       { heading: "먼저 검사 목적이 분명해야 합니다", paragraphs: ["같은 사람이더라도 무엇이 궁금한지에 따라 필요한 검사가 달라집니다. ‘그냥 종합검사’보다 현재의 어려움과 알고 싶은 점을 충분히 이야기한 뒤 구성을 정하는 것이 좋습니다."] },
@@ -189,8 +237,14 @@ export const guideArticles: GuideArticle[] = [
     categoryEn: "ENDING THERAPY",
     title: "상담을 종결할 때 함께 확인할 것",
     description: "그만두는 통보가 아니라 변화와 관계를 충분히 정리하는 과정으로서의 종결.",
+    topics: ["상담 종결", "상담 과정", "변화", "재상담"],
+    relatedServices: ["individual", "couple", "trauma"],
+    sourcePlatform: "website",
+    originalUrl: null,
+    publishedAt: "2026-08-13",
+    updatedAt: "2026-08-13",
+    featured: false,
     readTime: "5분",
-    updated: "2026.08.13",
     intro: "상담의 끝은 갑자기 문을 닫는 일이 아니라, 무엇이 달라졌고 앞으로 무엇이 필요한지 함께 정리하는 중요한 과정입니다.",
     sections: [
       { heading: "끝내고 싶은 마음도 상담의 주제가 됩니다", paragraphs: ["목표를 이루어서, 비용이나 일정 때문에, 상담이 맞지 않는 것 같아서 등 이유는 다양합니다. 가능한 한 그 마음을 미리 이야기하면 실제 상황을 조정하거나 관계에서 반복되던 중요한 패턴을 이해할 기회가 생길 수 있습니다."] },
@@ -206,3 +260,30 @@ export const guideCategories = ["전체", "상담 시작하기", "상담 잘 이
 export function getGuideArticle(slug: string) {
   return guideArticles.find((article) => article.slug === slug);
 }
+
+export function getCareService(id: string) {
+  return careServices.find((service) => service.id === id);
+}
+
+export function getRelatedGuides(article: GuideArticle, limit = 3) {
+  return guideArticles
+    .filter((candidate) => candidate.slug !== article.slug)
+    .map((candidate) => ({
+      article: candidate,
+      score:
+        candidate.topics.filter((topic) => article.topics.includes(topic)).length * 2 +
+        (candidate.category === article.category ? 1 : 0),
+    }))
+    .sort((a, b) => b.score - a.score)
+    .slice(0, limit)
+    .map(({ article: candidate }) => candidate);
+}
+
+export function getRelatedGuidesForService(serviceId: string, limit = 3) {
+  return guideArticles.filter((article) => article.relatedServices.includes(serviceId)).slice(0, limit);
+}
+
+export function formatGuideDate(value: string) {
+  return value.replaceAll("-", ".");
+}
+

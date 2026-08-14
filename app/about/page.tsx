@@ -4,7 +4,6 @@ import { BrandLogo } from "@/components/BrandLogo";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { PageHero } from "@/components/PageHero";
-import { publicContent } from "@/lib/public-content";
 
 export const metadata: Metadata = {
   title: "새벽별 소개",
@@ -33,7 +32,7 @@ export default function AboutPage() {
           <div className="shell manifesto-grid">
             <div className="manifesto-mark">
               <BrandLogo size="feature" />
-              <span>2024년부터 사용해 온 새벽별의 공식 로고</span>
+              <span>새벽별의 공식 Brand Symbol</span>
             </div>
             <div className="manifesto-copy">
               <span className="section-kicker">OUR STORY</span>
@@ -89,7 +88,6 @@ export default function AboutPage() {
                 <strong>공개 안내 기준</strong>
                 <span>공개 가이드에서 한국상담심리학회 상담심리사 자격으로 활동하고 있음을 안내하고 있습니다. 세부 학력·수련·경력은 문의 과정에서 확인할 수 있습니다.</span>
               </div>
-              <a className="text-link practitioner-source" href={publicContent.notion.publicUrl} target="_blank" rel="noreferrer">공개 노션 가이드에서 확인하기 ↗</a>
               <Link className="button button-primary" href="/contact">상담 문의하기 ↗</Link>
             </div>
           </div>
@@ -99,3 +97,4 @@ export default function AboutPage() {
     </>
   );
 }
+

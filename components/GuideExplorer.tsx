@@ -5,15 +5,15 @@ import { useMemo, useState } from "react";
 import type { GuideArticle } from "@/lib/content";
 import { guideCategories } from "@/lib/content";
 
-export function GuideExplorer({ articles }: { articles: GuideArticle[] }) {
-  const [category, setCategory] = useState("전체");
+export function GuideExplorer({ articles, initialCategory = "전체" }: { articles: GuideArticle[]; initialCategory?: string }) {
+  const [category, setCategory] = useState(initialCategory);
   const [query, setQuery] = useState("");
 
   const filtered = useMemo(() => {
     const normalized = query.trim().toLocaleLowerCase("ko");
     return articles.filter((article) => {
       const inCategory = category === "전체" || article.category === category;
-      const searchable = `${article.title} ${article.description} ${article.category}`.toLocaleLowerCase("ko");
+      const searchable = `${article.title} ${article.description} ${article.category} ${article.topics.join(" ")}`.toLocaleLowerCase("ko");
       return inCategory && (!normalized || searchable.includes(normalized));
     });
   }, [articles, category, query]);
@@ -79,3 +79,4 @@ export function GuideExplorer({ articles }: { articles: GuideArticle[] }) {
     </div>
   );
 }
+

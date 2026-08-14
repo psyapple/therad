@@ -3,15 +3,19 @@ import { Footer } from "@/components/Footer";
 import { GuideExplorer } from "@/components/GuideExplorer";
 import { Header } from "@/components/Header";
 import { PageHero } from "@/components/PageHero";
-import { SourceStream } from "@/components/SourceStream";
-import { guideArticles } from "@/lib/content";
+import { guideArticles, guideCategories } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "GUIDE · 심리상담 가이드",
   description: "상담을 시작하고 잘 이용하는 법, 마음과 애착, AEDP·SP 같은 심리치료, 심리검사에 관한 새벽별의 가이드입니다.",
 };
 
-export default function GuidePage() {
+type GuidePageProps = { searchParams: Promise<{ category?: string }> };
+
+export default async function GuidePage({ searchParams }: GuidePageProps) {
+  const requestedCategory = (await searchParams).category;
+  const initialCategory = guideCategories.includes(requestedCategory ?? "") ? requestedCategory : "전체";
+
   return (
     <>
       <Header />
@@ -23,12 +27,11 @@ export default function GuidePage() {
           title={<>알고 나면 덜 막막해지는<br /><em>마음의 사용 설명서.</em></>}
           description="상담을 선택하는 일부터 감정과 관계를 이해하는 일까지. 전문적인 심리학을 오늘의 삶에서 사용할 수 있는 언어로 옮깁니다."
         />
-        <section className="section guide-archive-section">
+        <section className="section guide-archive-section" id="guide-archive">
           <div className="shell">
-            <GuideExplorer articles={guideArticles} />
+            <GuideExplorer articles={guideArticles} initialCategory={initialCategory} />
           </div>
         </section>
-        <SourceStream />
         <section className="guide-principle">
           <div className="shell guide-principle-grid">
             <span className="section-kicker">OUR EDITORIAL PRINCIPLE</span>
@@ -41,3 +44,4 @@ export default function GuidePage() {
     </>
   );
 }
+

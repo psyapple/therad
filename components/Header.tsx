@@ -28,7 +28,7 @@ export function Header() {
         <Link className="brand" href="/" aria-label="새벽별 홈">
           <BrandLogo size="header" priority />
           <span className="brand-text">
-            <strong>새벽별 심리상담센터</strong>
+            <strong>새벽별</strong>
             <small>Psychology for Everyday Life</small>
           </span>
         </Link>
@@ -77,3 +77,4 @@ export function Header() {
     </header>
   );
 }
+

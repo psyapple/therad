@@ -4,7 +4,13 @@ import { notFound } from "next/navigation";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { StarMark } from "@/components/StarMark";
-import { getGuideArticle, guideArticles } from "@/lib/content";
+import {
+  formatGuideDate,
+  getCareService,
+  getGuideArticle,
+  getRelatedGuides,
+  guideArticles,
+} from "@/lib/content";
 
 type GuidePageProps = { params: Promise<{ slug: string }> };
 
@@ -16,14 +22,32 @@ export async function generateMetadata({ params }: GuidePageProps): Promise<Meta
   const { slug } = await params;
   const article = getGuideArticle(slug);
   if (!article) return {};
-  return { title: article.title, description: article.description };
+  return {
+    title: article.title,
+    description: article.description,
+    openGraph: {
+      type: "article",
+      title: article.title,
+      description: article.description,
+      publishedTime: article.publishedAt,
+      modifiedTime: article.updatedAt,
+      images: [],
+    },
+    twitter: {
+      card: "summary",
+      title: article.title,
+      description: article.description,
+      images: [],
+    },
+  };
 }
 
 export default async function GuideArticlePage({ params }: GuidePageProps) {
   const { slug } = await params;
   const article = getGuideArticle(slug);
   if (!article) notFound();
-  const related = guideArticles.filter((item) => item.slug !== article.slug).slice(0, 3);
+  const related = getRelatedGuides(article);
+  const relatedServices = article.relatedServices.map(getCareService).filter((service) => service !== undefined);
 
   return (
     <>
@@ -51,7 +75,8 @@ export default async function GuideArticlePage({ params }: GuidePageProps) {
             <aside className="article-aside">
               <div><span>주제</span><strong>{article.category}</strong></div>
               <div><span>읽는 시간</span><strong>{article.readTime}</strong></div>
-              <div><span>업데이트</span><strong>{article.updated}</strong></div>
+              <div><span>주제</span><strong>{article.topics.slice(0, 2).join(" · ")}</strong></div>
+              <div><span>업데이트</span><strong>{formatGuideDate(article.updatedAt)}</strong></div>
               <div className="share-note"><span aria-hidden="true">✦</span><p>필요한 사람에게 이 글을 건네도 좋아요.</p></div>
             </aside>
             <div className="article-body">
@@ -71,9 +96,13 @@ export default async function GuideArticlePage({ params }: GuidePageProps) {
           </div>
         </article>
 
-        <section className="section related-section"><div className="shell"><div className="section-head"><div><span className="section-kicker">KEEP READING</span><h2>함께 읽으면 좋은 글</h2></div></div><div className="related-grid">{related.map((item) => <Link href={`/guide/${item.slug}`} key={item.slug}><span>{item.category} · {item.readTime}</span><h3>{item.title}</h3><b>→</b></Link>)}</div></div></section>
+        <section className="section related-section"><div className="shell"><div className="section-head"><div><span className="section-kicker">KEEP READING</span><h2>관련해서 읽어보세요</h2></div></div><div className="related-grid">{related.map((item) => <Link href={`/guide/${item.slug}`} key={item.slug}><span>{item.category} · {item.readTime}</span><h3>{item.title}</h3><b>→</b></Link>)}</div></div></section>
+        {relatedServices.length > 0 && (
+          <section className="section guide-care-section"><div className="shell"><div className="section-head"><div><span className="section-kicker">RELATED CARE</span><h2>새벽별에서 이용할 수 있어요</h2></div></div><div className="related-grid care-related-grid">{relatedServices.map((service) => <Link href={`/care/${service.id}`} key={service.id}><span>{service.english}</span><h3>{service.title}</h3><p>{service.short}</p><b>→</b></Link>)}</div></div></section>
+        )}
       </main>
       <Footer />
     </>
   );
 }
+

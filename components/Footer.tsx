@@ -9,8 +9,7 @@ export function Footer() {
         <Link className="footer-brand" href="/">
           <BrandLogo size="footer" />
           <span>
-            <strong>새벽별 심리상담센터</strong>
-            <small>Psychology for Everyday Life</small>
+            <strong>새벽별</strong>
           </span>
         </Link>
         <p>마음을 이해하고, 연결하고,<br />삶에서 사용할 수 있는 형태로 만듭니다.</p>
@@ -43,3 +42,4 @@ export function Footer() {
     </footer>
   );
 }
+
