@@ -59,4 +59,3 @@ INSTAGRAM_ACCESS_TOKEN=
 
 상담 기록, 댓글·답글, 개인 메시지처럼 민감하거나 맥락이 필요한 데이터는 자동으로 게시하지 않습니다.
 `data/threads_and_replies.json` 같은 원본 아카이브는 로컬에만 보관하고 공개 GitHub에서는 제외합니다.
-
