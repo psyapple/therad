@@ -1,4 +1,5 @@
 import { getCareService, getGuideArticle, type CareService } from "@/lib/content";
+import { sourceDerivedTools } from "@/lib/source-derived-tools";
 
 export const toolCategories = ["감정", "관계", "자기돌봄", "상담"] as const;
 
@@ -27,7 +28,7 @@ export type ToolItem = {
 
 // 기존 새벽별 교육·워크시트 자산에서 웹용으로 먼저 구조화한 초기 TOOLS입니다.
 // 원본 파일 다운로드는 별도 검수 후 연결하며, 현재는 웹에서 바로 사용할 수 있는 self-care prompts 중심으로 제공합니다.
-export const toolItems: ToolItem[] = [
+const initialTools: ToolItem[] = [
   {
     title: "감정 체크인",
     slug: "emotion-check-in",
@@ -122,6 +123,8 @@ export const toolItems: ToolItem[] = [
     ],
   },
 ];
+
+export const toolItems: ToolItem[] = [...initialTools, ...sourceDerivedTools];
 
 export function getToolItem(slug: string) {
   return toolItems.find((item) => item.slug === slug);
