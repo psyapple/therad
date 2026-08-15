@@ -3,56 +3,175 @@ export type CareService = {
   title: string;
   english: string;
   short: string;
+  indexDescription: string;
   description: string;
-  forWhom: string[];
-  note: string;
+  suitableFor: string[];
+  approach: string[];
+  methods: Array<{
+    title: string;
+    description?: string;
+    relatedGuide?: string;
+  }>;
+  relatedGuides: string[];
+  relatedTools: string[];
+  process?: CareProcessStep[];
+  assessmentCatalog: Array<{
+    name: string;
+    price: string | null;
+    duration: string | null;
+    resultConsultation: string | null;
+  }>;
+  operations: {
+    fee: string | null;
+    sessionLength: string | null;
+    availability: string | null;
+    practitionerAssignment: string | null;
+    bookingUrl: string | null;
+  };
+};
+
+export type CareProcessStep = {
+  number: string;
+  title: string;
+  description: string;
+};
+
+export const defaultCareProcess: CareProcessStep[] = [
+  { number: "01", title: "문의", description: "현재 고민과 이용하고 싶은 서비스를 문의합니다." },
+  { number: "02", title: "초기 상담 / 확인", description: "현재 상황과 상담에서 다루고 싶은 내용을 함께 확인합니다." },
+  { number: "03", title: "진행", description: "필요와 목표에 맞춰 상담 또는 평가를 진행합니다." },
+  { number: "04", title: "함께 돌아보기", description: "진행 과정과 변화, 이후 필요한 도움을 함께 살펴봅니다." },
+];
+
+const unconfirmedCareOperations: CareService["operations"] = {
+  fee: null,
+  sessionLength: null,
+  availability: null,
+  practitionerAssignment: null,
+  bookingUrl: null,
 };
 
 export const careServices: CareService[] = [
   {
     id: "individual",
     title: "개인 심리상담",
-    english: "INDIVIDUAL THERAPY",
+    english: "INDIVIDUAL",
     short: "감정, 관계, 반복되는 어려움을 안전하게 이해합니다.",
-    description: "지금 겪는 어려움만 해결하려 서두르기보다, 그 마음이 생겨난 맥락과 몸의 반응, 관계에서 반복되는 패턴을 함께 살펴봅니다.",
-    forWhom: ["불안과 우울, 무기력이 오래 이어질 때", "관계에서 비슷한 어려움이 반복될 때", "나를 이해하고 삶의 방향을 다시 찾고 싶을 때"],
-    note: "초기 상담에서 현재의 필요와 목표를 함께 정리한 뒤 진행 방향을 제안합니다.",
+    indexDescription: "마음의 어려움과 반복되는 관계·감정의 패턴을 상담자와 함께 이해하고 다루어갑니다.",
+    description: "혼자 이해하고 해결하려 했지만 계속 마음에 남아 있는 것들을 함께 살펴봅니다.",
+    suitableFor: [
+      "우울하거나 불안한 마음이 반복될 때",
+      "감정을 이해하거나 조절하기 어렵게 느껴질 때",
+      "대인관계에서 비슷한 어려움이 반복될 때",
+      "자기 자신을 이해하고 싶을 때",
+      "중요한 변화나 선택 앞에서 마음을 정리하고 싶을 때",
+      "과거의 경험이 현재의 삶과 관계에 계속 영향을 주는 것 같을 때",
+      "특별한 문제가 명확하지 않아도 자신의 마음을 함께 들여다보고 싶을 때",
+    ],
+    approach: [
+      "특정 치료기법에 사람을 맞추기보다 현재 경험하고 있는 어려움과 상담 목표를 함께 살펴보고 필요한 방식으로 상담을 진행합니다.",
+      "아래 접근은 현재의 경험과 목표에 따라 필요한 경우 선택적으로 활용합니다.",
+    ],
+    methods: [
+      { title: "AEDP", relatedGuide: "what-is-aedp" },
+      { title: "Sensorimotor Psychotherapy (SP)", relatedGuide: "body-remembers" },
+      { title: "애착 기반 접근", relatedGuide: "attachment-and-trauma" },
+      { title: "정서 중심 접근" },
+    ],
+    relatedGuides: ["before-your-first-session", "is-therapy-working", "what-is-aedp"],
+    relatedTools: [],
+    assessmentCatalog: [],
+    operations: { ...unconfirmedCareOperations },
   },
   {
     id: "couple",
     title: "커플·부부상담",
-    english: "COUPLE THERAPY",
+    english: "COUPLE",
     short: "갈등의 내용보다 그 아래 반복되는 관계의 움직임을 봅니다.",
-    description: "누가 옳은지를 가리는 대신 서로가 위협을 느끼고 가까워지거나 멀어지는 방식을 이해하며, 다시 안전하게 대화할 수 있는 경험을 만듭니다.",
-    forWhom: ["대화할수록 같은 갈등으로 돌아올 때", "신뢰가 흔들린 사건 이후 회복이 필요할 때", "관계의 다음 단계를 함께 결정하고 싶을 때"],
-    note: "필요에 따라 두 사람과의 초기 면담 및 개별 확인 과정을 포함할 수 있습니다.",
+    indexDescription: "두 사람 사이에서 반복되는 갈등과 감정, 관계의 패턴을 함께 살펴봅니다.",
+    description: "누가 옳은지를 정하기보다 두 사람 사이에서 어떤 일이 반복되고 있는지 함께 살펴봅니다.",
+    suitableFor: [
+      "같은 문제로 반복해서 갈등할 때",
+      "대화가 쉽게 싸움이나 단절로 이어질 때",
+      "서로의 마음을 이해하기 어렵게 느껴질 때",
+      "관계에서 친밀감이나 연결감이 줄었다고 느낄 때",
+      "중요한 관계의 변화나 결정을 앞두고 있을 때",
+      "두 사람의 관계를 조금 더 깊이 이해하고 싶을 때",
+    ],
+    approach: ["두 사람 각각의 감정과 경험뿐 아니라 두 사람 사이에서 만들어지는 상호작용의 패턴을 함께 살펴봅니다."],
+    methods: [],
+    relatedGuides: ["attachment-and-trauma", "is-therapy-working", "ending-therapy"],
+    relatedTools: [],
+    assessmentCatalog: [],
+    operations: { ...unconfirmedCareOperations },
   },
   {
     id: "child-parent",
     title: "놀이치료·양육코칭",
     english: "CHILD & PARENT",
     short: "아이의 행동을 마음의 언어로 읽고 부모와 함께 길을 찾습니다.",
-    description: "놀이와 관계 안에서 아이가 표현하는 감정과 필요를 이해하고, 부모가 일상에서 아이와 더 안정적으로 연결될 수 있도록 돕습니다.",
-    forWhom: ["감정 폭발이나 위축이 걱정될 때", "학교·또래 관계 적응이 어려울 때", "부모와 아이의 갈등이 잦아졌을 때"],
-    note: "아동 상담은 보호자 면담과 발달 및 생활환경에 대한 이해를 함께 진행합니다.",
+    indexDescription: "아이의 발달과 정서, 행동을 이해하고 아이와 부모에게 필요한 도움을 함께 찾아갑니다.",
+    description: "아이의 행동만 바꾸기보다 그 행동 안에 담긴 발달과 마음을 함께 이해합니다.",
+    suitableFor: [
+      "아이의 정서나 행동이 걱정될 때",
+      "또래·가족 관계에서 어려움이 반복될 때",
+      "아이의 발달 특성을 이해하고 싶을 때",
+      "부모와 아이 사이의 상호작용을 살펴보고 싶을 때",
+      "양육 과정에서 어떻게 반응해야 할지 막막할 때",
+      "아이에게 적절한 심리지원 방법을 함께 찾고 싶을 때",
+    ],
+    approach: ["아이의 발달 수준과 정서적 필요, 부모-아이 관계와 환경을 함께 고려합니다."],
+    methods: [],
+    relatedGuides: ["choosing-a-therapist", "before-your-first-session"],
+    relatedTools: [],
+    assessmentCatalog: [],
+    operations: { ...unconfirmedCareOperations },
   },
   {
     id: "assessment",
     title: "심리평가",
-    english: "PSYCHOLOGICAL ASSESSMENT",
+    english: "ASSESSMENT",
     short: "검사 점수 너머, 지금의 나를 이해하는 지도를 만듭니다.",
-    description: "궁금한 점을 분명히 한 뒤 필요한 검사를 선택하고, 결과를 현재의 삶과 연결해 이해할 수 있도록 해석상담을 제공합니다.",
-    forWhom: ["현재의 정서와 성격 특성을 객관적으로 알고 싶을 때", "상담 방향을 정하기 위한 종합적인 이해가 필요할 때", "자녀의 발달·정서·학습 특성이 궁금할 때"],
-    note: "검사 구성과 비용, 소요 시간은 평가 목적에 따라 달라지며 사전에 안내합니다.",
+    indexDescription: "심리검사와 면담을 통해 현재의 마음과 특성을 조금 더 구체적으로 이해합니다.",
+    description: "검사의 숫자만 확인하는 것이 아니라 그 결과가 나를 이해하는 데 어떤 의미가 있는지 함께 살펴봅니다.",
+    suitableFor: [
+      "자신의 성격과 정서적 특성을 이해하고 싶을 때",
+      "반복되는 관계나 행동의 패턴을 살펴보고 싶을 때",
+      "아이의 발달이나 기질을 이해하고 싶을 때",
+      "커플 관계를 조금 더 구조적으로 살펴보고 싶을 때",
+      "상담 과정에서 추가적인 이해가 필요할 때",
+    ],
+    approach: ["검사 결과를 단순 점수나 유형으로만 설명하기보다 면담 및 현재 상황과 함께 이해할 수 있도록 돕습니다."],
+    methods: [],
+    relatedGuides: ["psychological-assessment-guide"],
+    relatedTools: [],
+    assessmentCatalog: [],
+    operations: { ...unconfirmedCareOperations },
   },
   {
-    id: "trauma",
+    id: "trauma-attachment",
     title: "트라우마·애착 상담",
     english: "TRAUMA & ATTACHMENT",
     short: "머리로는 괜찮아도 몸과 관계에 남은 경험을 천천히 만납니다.",
-    description: "압도되지 않는 속도 안에서 정서와 신체 감각을 함께 살피고, 혼자 견뎌온 경험이 안전한 관계 속에서 새롭게 정리되도록 돕습니다.",
-    forWhom: ["특정 기억이나 상황에 강한 반응이 반복될 때", "가까운 관계에서 불안과 두려움이 커질 때", "이유를 설명하기 어려운 긴장과 몸의 반응이 지속될 때"],
-    note: "AEDP, SP 등 정서·애착·신체 기반 관점을 통합적으로 활용합니다.",
+    indexDescription: "말로 이해하는 것만으로 충분하지 않았던 경험과 감정·관계·신체의 반응을 함께 살펴봅니다.",
+    description: "과거의 경험이 지금의 감정과 관계, 몸의 반응에 남아 있을 때 함께 살펴봅니다.",
+    suitableFor: [
+      "과거의 경험이 현재에도 반복해서 떠오르거나 영향을 줄 때",
+      "특정 상황에서 몸이 먼저 긴장하거나 얼어붙는 것처럼 느껴질 때",
+      "가까운 관계에서 불안이나 거리두기가 반복될 때",
+      "감정을 느끼거나 표현하는 것이 어렵게 느껴질 때",
+      "머리로는 이해하지만 몸과 감정의 반응은 쉽게 달라지지 않을 때",
+      "관계에서 안전함이나 연결감을 경험하기 어려울 때",
+    ],
+    approach: ["말과 생각뿐 아니라 감정, 관계, 필요한 경우 신체에서 경험되는 반응까지 함께 살펴봅니다."],
+    methods: [
+      { title: "AEDP", description: "감정과 관계 안에서 일어나는 경험을 함께 살펴보는 접근입니다.", relatedGuide: "what-is-aedp" },
+      { title: "Sensorimotor Psychotherapy · SP", description: "트라우마와 애착 경험에 관련된 신체적 반응과 감정, 생각을 함께 살펴보는 접근입니다.", relatedGuide: "body-remembers" },
+    ],
+    relatedGuides: ["attachment-and-trauma", "what-is-aedp", "body-remembers"],
+    relatedTools: [],
+    assessmentCatalog: [],
+    operations: { ...unconfirmedCareOperations },
   },
 ];
 
@@ -85,7 +204,7 @@ export const guideArticles: GuideArticle[] = [
     title: "나에게 맞는 상담자를 고르는 기준",
     description: "자격, 전문 분야, 첫 만남에서 확인할 것까지. 막막한 선택을 조금 더 분명하게 만드는 질문들.",
     topics: ["상담자 선택", "전문성", "첫 상담", "상담 관계"],
-    relatedServices: ["individual", "couple", "child-parent", "trauma"],
+    relatedServices: ["individual", "couple", "child-parent", "trauma-attachment"],
     relatedTools: [],
     sourcePlatform: "website",
     originalUrl: null,
@@ -131,7 +250,7 @@ export const guideArticles: GuideArticle[] = [
     title: "상담이 잘 되고 있는지 확인하는 법",
     description: "변화가 더디게 느껴질 때 살펴볼 신호와 상담자에게 꺼내볼 질문을 정리했습니다.",
     topics: ["상담 과정", "변화", "상담 목표", "상담 관계"],
-    relatedServices: ["individual", "couple", "trauma"],
+    relatedServices: ["individual", "couple", "trauma-attachment"],
     relatedTools: [],
     sourcePlatform: "website",
     originalUrl: null,
@@ -154,7 +273,7 @@ export const guideArticles: GuideArticle[] = [
     title: "애착과 트라우마는 어떻게 연결될까요",
     description: "가까워지고 싶은 마음과 다치지 않으려는 마음이 동시에 움직이는 이유.",
     topics: ["애착", "트라우마", "관계", "안전감"],
-    relatedServices: ["trauma", "individual", "couple"],
+    relatedServices: ["trauma-attachment", "individual", "couple"],
     relatedTools: [],
     sourcePlatform: "website",
     originalUrl: null,
@@ -177,7 +296,7 @@ export const guideArticles: GuideArticle[] = [
     title: "AEDP: 감정을 피하지 않고 변화로 가는 치료",
     description: "가속경험적 역동치료가 안전한 관계와 감정의 경험을 중요하게 보는 이유.",
     topics: ["AEDP", "감정", "치료 관계", "애착"],
-    relatedServices: ["individual", "trauma"],
+    relatedServices: ["individual", "trauma-attachment"],
     relatedTools: [],
     sourcePlatform: "website",
     originalUrl: null,
@@ -200,7 +319,7 @@ export const guideArticles: GuideArticle[] = [
     title: "머리로는 괜찮은데 몸은 왜 긴장할까요",
     description: "신체 기반 심리치료가 몸의 감각과 신경계 반응을 함께 살피는 이유.",
     topics: ["신체 기반 심리치료", "신경계", "긴장", "SP", "트라우마"],
-    relatedServices: ["trauma", "individual"],
+    relatedServices: ["trauma-attachment", "individual"],
     relatedTools: [],
     sourcePlatform: "website",
     originalUrl: null,
@@ -246,7 +365,7 @@ export const guideArticles: GuideArticle[] = [
     title: "상담을 종결할 때 함께 확인할 것",
     description: "그만두는 통보가 아니라 변화와 관계를 충분히 정리하는 과정으로서의 종결.",
     topics: ["상담 종결", "상담 과정", "변화", "재상담"],
-    relatedServices: ["individual", "couple", "trauma"],
+    relatedServices: ["individual", "couple", "trauma-attachment"],
     relatedTools: [],
     sourcePlatform: "website",
     originalUrl: null,
@@ -289,7 +408,13 @@ export function getRelatedGuides(article: GuideArticle, limit = 3) {
 }
 
 export function getRelatedGuidesForService(serviceId: string, limit = 3) {
-  return guideArticles.filter((article) => article.relatedServices.includes(serviceId)).slice(0, limit);
+  const service = getCareService(serviceId);
+  if (!service) return [];
+
+  return service.relatedGuides
+    .map(getGuideArticle)
+    .filter((article) => article !== undefined)
+    .slice(0, limit);
 }
 
 export function formatGuideDate(value: string) {

@@ -1,4 +1,4 @@
-import { getGuideArticle, type CareService } from "@/lib/content";
+import { getCareService, getGuideArticle, type CareService } from "@/lib/content";
 
 export const toolCategories = ["감정", "관계", "자기돌봄", "상담"] as const;
 
@@ -45,7 +45,8 @@ export function getRelatedToolsForGuide(guideSlug: string, limit = 3) {
 }
 
 export function getRelatedToolsForService(serviceId: CareService["id"], limit = 3) {
+  const service = getCareService(serviceId);
   return toolItems
-    .filter((item) => item.relatedServices.includes(serviceId))
+    .filter((item) => item.relatedServices.includes(serviceId) || service?.relatedTools.includes(item.slug))
     .slice(0, limit);
 }

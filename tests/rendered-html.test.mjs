@@ -65,12 +65,16 @@ test("keeps Insight Relay clearly in development without invented functions", as
 });
 
 test("renders connected CARE and GUIDE detail routes", async () => {
-  const careResponse = await render("/care/trauma");
+  const careResponse = await render("/care/trauma-attachment");
   assert.equal(careResponse.status, 200);
   const careHtml = await careResponse.text();
   assert.match(careHtml, /트라우마·애착 상담/);
-  assert.match(careHtml, /조금 더 알아보고 싶다면/);
+  assert.match(careHtml, /이런 경우/);
+  assert.match(careHtml, /새벽별에서는/);
+  assert.match(careHtml, /진행 과정/);
+  assert.match(careHtml, /조금 더 이해하고 싶다면/);
   assert.match(careHtml, /애착과 트라우마는 어떻게 연결될까요/);
+  assert.doesNotMatch(careHtml, /TODO|미정|상담 비용|회기 시간|예약 URL/);
 
   const guideResponse = await render("/guide/attachment-and-trauma");
   assert.equal(guideResponse.status, 200);
@@ -78,4 +82,23 @@ test("renders connected CARE and GUIDE detail routes", async () => {
   assert.match(guideHtml, /관련해서 읽어보세요/);
   assert.match(guideHtml, /새벽별에서 이용할 수 있어요/);
   assert.match(guideHtml, /트라우마·애착 상담/);
+});
+
+test("renders all five CARE v1.0 service routes from shared data", async () => {
+  for (const [pathname, title, description] of [
+    ["/care/individual", "개인 심리상담", "혼자 이해하고 해결하려 했지만"],
+    ["/care/couple", "커플·부부상담", "누가 옳은지를 정하기보다"],
+    ["/care/child-parent", "놀이치료·양육코칭", "아이의 행동만 바꾸기보다"],
+    ["/care/assessment", "심리평가", "검사의 숫자만 확인하는 것이 아니라"],
+    ["/care/trauma-attachment", "트라우마·애착 상담", "과거의 경험이 지금의 감정과 관계"],
+  ]) {
+    const response = await render(pathname);
+    assert.equal(response.status, 200, pathname);
+    const html = await response.text();
+    assert.match(html, new RegExp(title));
+    assert.match(html, new RegExp(description));
+    assert.match(html, /HOME.*CARE/);
+    assert.match(html, /상담을 알아보고 있다면/);
+    assert.doesNotMatch(html, /TODO|미정/);
+  }
 });
