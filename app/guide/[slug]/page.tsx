@@ -4,13 +4,12 @@ import { notFound } from "next/navigation";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { StarMark } from "@/components/StarMark";
+import { formatGuideDate, getCareService } from "@/lib/content";
 import {
-  formatGuideDate,
-  getCareService,
   getGuideArticle,
   getRelatedGuides,
   guideArticles,
-} from "@/lib/content";
+} from "@/lib/guide-archive";
 import { getRelatedToolsForGuide } from "@/lib/tools";
 
 type GuidePageProps = { params: Promise<{ slug: string }> };
@@ -77,7 +76,7 @@ export default async function GuideArticlePage({ params }: GuidePageProps) {
             <aside className="article-aside">
               <div><span>주제</span><strong>{article.category}</strong></div>
               <div><span>읽는 시간</span><strong>{article.readTime}</strong></div>
-              <div><span>주제</span><strong>{article.topics.slice(0, 2).join(" · ")}</strong></div>
+              <div><span>키워드</span><strong>{article.topics.slice(0, 2).join(" · ")}</strong></div>
               <div><span>업데이트</span><strong>{formatGuideDate(article.updatedAt)}</strong></div>
               <div className="share-note"><span aria-hidden="true">✦</span><p>필요한 사람에게 이 글을 건네도 좋아요.</p></div>
             </aside>
