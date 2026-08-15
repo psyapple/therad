@@ -20,6 +20,7 @@ export function Footer() {
           <Link href="/about">ABOUT</Link>
           <Link href="/care">CARE</Link>
           <Link href="/guide">GUIDE</Link>
+          <Link href="/tools">TOOLS</Link>
           <Link href="/insight-relay">INSIGHT RELAY</Link>
         </div>
         <div className="footer-column">
@@ -42,4 +43,3 @@ export function Footer() {
     </footer>
   );
 }
-

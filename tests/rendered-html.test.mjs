@@ -21,24 +21,47 @@ test("renders the finished Korean brand home", async () => {
   assert.match(html, /Insight Relay/);
   assert.match(html, /CARE/);
   assert.match(html, /GUIDE/);
+  assert.match(html, /TOOLS/);
+  assert.match(html, /만나기/);
+  assert.match(html, /이해하기/);
+  assert.match(html, /돌보기/);
+  assert.match(html, /IN DEVELOPMENT · COMING SOON/);
+  assert.match(html, /현재 개발 중입니다/);
   assert.match(html, /Psychology for Everyday Life/);
   assert.match(html, /새벽별은 마음을 이해하고 연결하는 일을 합니다/);
   assert.match(html, /상담 시작하기/);
   assert.doesNotMatch(html, /새벽별이 실제로 쓰고 있는 기록/);
+  assert.doesNotMatch(html, /PRODUCT PREVIEW|기록 시작하기/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|react-loading-skeleton/i);
+
+  const careIndex = html.indexOf("마음을 만나는 여러 가지 방식");
+  const guideIndex = html.indexOf("알고 나면 덜 막막해지는 것들");
+  const toolsIndex = html.indexOf("알고 끝나지 않고");
+  const relayIndex = html.indexOf("상담과 상담 사이,");
+  assert.ok(careIndex < guideIndex && guideIndex < toolsIndex && toolsIndex < relayIndex);
 });
 
 test("renders core product routes", async () => {
   for (const [pathname, text] of [
     ["/care", "개인 심리상담"],
     ["/guide", "마음의 사용 설명서"],
-    ["/insight-relay", "상담과 상담 사이에도"],
+    ["/tools", "직접 해볼 수 있도록"],
+    ["/insight-relay", "현재 개발 중입니다"],
     ["/contact", "어떤 이야기로 찾아오셨나요"],
   ]) {
     const response = await render(pathname);
     assert.equal(response.status, 200, pathname);
     assert.match(await response.text(), new RegExp(text));
   }
+});
+
+test("keeps Insight Relay clearly in development without invented functions", async () => {
+  const response = await render("/insight-relay");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /IN DEVELOPMENT · COMING SOON/);
+  assert.match(html, /between-session self-care service/);
+  assert.doesNotMatch(html, /오늘의 상태 체크|회기 사이의 사건 기록|상담 후 핵심 정리|다음 상담으로 연결|기록 시작하기/);
 });
 
 test("renders connected CARE and GUIDE detail routes", async () => {
@@ -56,4 +79,3 @@ test("renders connected CARE and GUIDE detail routes", async () => {
   assert.match(guideHtml, /새벽별에서 이용할 수 있어요/);
   assert.match(guideHtml, /트라우마·애착 상담/);
 });
-

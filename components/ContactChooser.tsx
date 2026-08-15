@@ -18,8 +18,8 @@ const inquiryTypes = [
   {
     id: "relay",
     label: "Insight Relay",
-    description: "서비스 사용, 파트너십, 개발 소식",
-    template: "[Insight Relay 문의]\n\n1. 문의자 유형(내담자·상담자·기관·기타):\n2. 관심 있는 사용 방식:\n3. 궁금한 점:\n\n※ Insight Relay는 현재 개발 중인 서비스입니다.",
+    description: "개발 소식, 파트너십, 사용자 의견",
+    template: "[Insight Relay 문의]\n\n1. 문의자 유형(내담자·상담자·기관·기타):\n2. 관심을 갖게 된 이유:\n3. 궁금한 점:\n\n※ Insight Relay는 현재 개발 중인 서비스입니다.",
   },
 ];
 

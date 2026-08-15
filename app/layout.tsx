@@ -16,13 +16,13 @@ export async function generateMetadata(): Promise<Metadata> {
       template: "%s | 새벽별",
     },
     description:
-      "새벽별은 전문적인 심리상담, 누구나 이해할 수 있는 심리학 GUIDE, 상담과 상담 사이를 잇는 Insight Relay를 만듭니다.",
+      "새벽별은 전문적인 심리상담 CARE, 마음을 이해하는 심리학 GUIDE, 일상에서 직접 사용하는 마음도구 TOOLS를 만듭니다.",
     icons: {
       icon: "/brand-symbol.png",
       shortcut: "/brand-symbol.png",
       apple: "/brand-symbol.png",
     },
-    keywords: ["새벽별", "심리상담", "심리상담 가이드", "AEDP", "SP", "애착", "트라우마", "Insight Relay"],
+    keywords: ["새벽별", "심리상담", "심리상담 가이드", "마음도구", "심리 워크시트", "AEDP", "SP", "애착", "트라우마", "Insight Relay"],
     openGraph: {
       type: "website",
       locale: "ko_KR",
@@ -53,4 +53,3 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     </html>
   );
 }
-

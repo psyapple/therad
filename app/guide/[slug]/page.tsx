@@ -11,6 +11,7 @@ import {
   getRelatedGuides,
   guideArticles,
 } from "@/lib/content";
+import { getRelatedToolsForGuide } from "@/lib/tools";
 
 type GuidePageProps = { params: Promise<{ slug: string }> };
 
@@ -48,6 +49,7 @@ export default async function GuideArticlePage({ params }: GuidePageProps) {
   if (!article) notFound();
   const related = getRelatedGuides(article);
   const relatedServices = article.relatedServices.map(getCareService).filter((service) => service !== undefined);
+  const relatedTools = getRelatedToolsForGuide(article.slug);
 
   return (
     <>
@@ -97,6 +99,9 @@ export default async function GuideArticlePage({ params }: GuidePageProps) {
         </article>
 
         <section className="section related-section"><div className="shell"><div className="section-head"><div><span className="section-kicker">KEEP READING</span><h2>관련해서 읽어보세요</h2></div></div><div className="related-grid">{related.map((item) => <Link href={`/guide/${item.slug}`} key={item.slug}><span>{item.category} · {item.readTime}</span><h3>{item.title}</h3><b>→</b></Link>)}</div></div></section>
+        {relatedTools.length > 0 && (
+          <section className="section guide-tools-section"><div className="shell"><div className="section-head"><div><span className="section-kicker">RELATED TOOLS</span><h2>직접 해보고 싶다면</h2></div></div><div className="related-grid">{relatedTools.map((item) => <Link href={`/tools/${item.slug}`} key={item.slug}><span>{item.category} · {item.format}</span><h3>{item.title}</h3><p>{item.description}</p><b>→</b></Link>)}</div></div></section>
+        )}
         {relatedServices.length > 0 && (
           <section className="section guide-care-section"><div className="shell"><div className="section-head"><div><span className="section-kicker">RELATED CARE</span><h2>새벽별에서 이용할 수 있어요</h2></div></div><div className="related-grid care-related-grid">{relatedServices.map((service) => <Link href={`/care/${service.id}`} key={service.id}><span>{service.english}</span><h3>{service.title}</h3><p>{service.short}</p><b>→</b></Link>)}</div></div></section>
         )}
@@ -105,4 +110,3 @@ export default async function GuideArticlePage({ params }: GuidePageProps) {
     </>
   );
 }
-

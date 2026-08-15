@@ -4,8 +4,11 @@ import { Header } from "@/components/Header";
 import { StarMark } from "@/components/StarMark";
 import { brandPillars } from "@/lib/brand";
 import { careServices, guideArticles, guideCategories } from "@/lib/content";
+import { getFeaturedTools, toolCategories } from "@/lib/tools";
 
 export default function Home() {
+  const featuredTools = getFeaturedTools(3);
+
   return (
     <>
       <Header />
@@ -130,38 +133,6 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="relay-feature">
-          <div className="relay-stars" aria-hidden="true">
-            <span>✦</span><span>·</span><span>✦</span><span>·</span><span>✦</span>
-          </div>
-          <div className="shell relay-feature-grid">
-            <div className="relay-title">
-              <span className="relay-badge">BETWEEN-SESSION SUPPORT</span>
-              <h2>
-                상담은 한 회기로 끝나지만,
-                <br />
-                <em>마음의 변화는 그 사이에도 계속됩니다.</em>
-              </h2>
-            </div>
-            <div className="relay-copy">
-              <div className="relay-wordmark">
-                <StarMark size="medium" />
-                <div>
-                  <strong>Insight Relay</strong>
-                  <span>Between-session support</span>
-                </div>
-              </div>
-              <p>
-                상담에서 발견한 것을 일상으로 가져가고,
-                다음 상담까지의 경험을 이어갈 수 있도록 돕습니다.
-              </p>
-              <Link className="light-link" href="/insight-relay">
-                Insight Relay 알아보기 <span aria-hidden="true">→</span>
-              </Link>
-            </div>
-          </div>
-        </section>
-
         <section className="section services-section">
           <div className="shell">
             <div className="section-head">
@@ -220,6 +191,71 @@ export default function Home() {
           </div>
         </section>
 
+        <section className="section tools-preview" id="tools-preview">
+          <div className="shell">
+            <div className="section-head tools-preview-head">
+              <div>
+                <div className="section-kicker">TOOLS</div>
+                <h2>알고 끝나지 않고,<br />직접 해볼 수 있도록.</h2>
+              </div>
+              <div className="tools-intro">
+                <p>읽고 이해한 것을 일상에서 사용해볼 수 있도록<br className="desktop-break" /> 새벽별이 만든 워크시트와 마음도구를 모았습니다.</p>
+                <Link className="text-link arrow-link" href="/tools">마음도구 전체 보기 <span>→</span></Link>
+              </div>
+            </div>
+
+            {featuredTools.length > 0 ? (
+              <div className="tool-feature-list">
+                {featuredTools.map((item, index) => (
+                  <Link className="tool-feature-row" href={`/tools/${item.slug}`} key={item.slug}>
+                    <span>{String(index + 1).padStart(2, "0")}</span>
+                    <div><small>{item.category} · {item.format}</small><h3>{item.title}</h3><p>{item.description}</p></div>
+                    <b aria-hidden="true">→</b>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <div className="tools-preview-empty">
+                <span className="tools-empty-star" aria-hidden="true">✦</span>
+                <div><strong>새벽별 마음도구 아카이브</strong><p>실제 워크시트와 마음도구를 하나씩 연결합니다.</p></div>
+                <div className="tool-category-list" aria-label="마음도구 분류">{toolCategories.map((category) => <span key={category}>{category}</span>)}</div>
+              </div>
+            )}
+          </div>
+        </section>
+
+        <section className="relay-feature" id="insight-relay-preview">
+          <div className="relay-stars" aria-hidden="true">
+            <span>✦</span><span>·</span><span>✦</span><span>·</span><span>✦</span>
+          </div>
+          <div className="shell relay-feature-grid">
+            <div className="relay-title">
+              <span className="relay-badge">IN DEVELOPMENT · COMING SOON</span>
+              <h2>
+                상담과 상담 사이,
+                <br />
+                <em>나를 살피고 돌볼 수 있도록.</em>
+              </h2>
+            </div>
+            <div className="relay-copy">
+              <div className="relay-wordmark">
+                <StarMark size="medium" />
+                <div>
+                  <strong>Insight Relay</strong>
+                  <span>Between-session self-care service</span>
+                </div>
+              </div>
+              <p>
+                상담에서 발견한 것을 일상에서 돌아보고, 자신의 경험과 상태를 살피며 다음 상담까지의 시간을 돌볼 수 있도록 돕는 between-session self-care service를 준비하고 있습니다.
+              </p>
+              <strong className="relay-development-note">현재 개발 중입니다.</strong>
+              <Link className="light-link" href="/insight-relay">
+                Insight Relay 알아보기 <span aria-hidden="true">→</span>
+              </Link>
+            </div>
+          </div>
+        </section>
+
         <section className="closing-cta">
           <div className="shell closing-grid">
             <div>
@@ -237,4 +273,3 @@ export default function Home() {
     </>
   );
 }
-

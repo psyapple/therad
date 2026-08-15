@@ -7,7 +7,7 @@ import { PageHero } from "@/components/PageHero";
 
 export const metadata: Metadata = {
   title: "새벽별 소개",
-  description: "상담, 심리학 GUIDE, 디지털 연결을 통해 복잡한 마음을 삶에서 사용할 수 있는 언어로 번역하는 새벽별을 소개합니다.",
+  description: "CARE, GUIDE, TOOLS를 통해 복잡한 마음을 삶에서 사용할 수 있는 언어와 도구로 번역하는 새벽별을 소개합니다.",
 };
 
 const values = [
@@ -62,13 +62,13 @@ export default function AboutPage() {
         <section className="section spectrum-section">
           <div className="shell spectrum-grid">
             <div>
-              <span className="section-kicker">ONE BRAND, THREE DIRECTIONS</span>
-              <h2>상담에서 시작해<br />일상과 기술까지.</h2>
+              <span className="section-kicker">ONE BRAND, THREE EXPERIENCES</span>
+              <h2>만나고, 이해하고,<br />직접 돌볼 수 있도록.</h2>
             </div>
             <div className="spectrum-list">
               <Link href="/care"><span>CARE</span><strong>심리서비스</strong><p>개인·커플·아동 상담, 심리평가, 트라우마 상담</p><b>↗</b></Link>
               <Link href="/guide"><span>GUIDE</span><strong>심리교육</strong><p>상담 선택, 마음 이해, 심리치료와 검사에 관한 가이드</p><b>↗</b></Link>
-              <Link href="/insight-relay"><span>RELAY</span><strong>디지털 연결</strong><p>상담에서 발견한 것을 다음 회기와 일상으로 이어가는 지원</p><b>↗</b></Link>
+              <Link href="/tools"><span>TOOLS</span><strong>마음도구</strong><p>읽고 이해한 것을 일상에서 직접 사용해보는 워크시트와 도구</p><b>↗</b></Link>
             </div>
           </div>
         </section>
@@ -97,4 +97,3 @@ export default function AboutPage() {
     </>
   );
 }
-

@@ -65,6 +65,7 @@ export type GuideArticle = {
   description: string;
   topics: string[];
   relatedServices: CareService["id"][];
+  relatedTools: string[];
   sourcePlatform: "website" | "naver-blog" | "instagram" | "notion";
   originalUrl: string | null;
   publishedAt: string;
@@ -85,6 +86,7 @@ export const guideArticles: GuideArticle[] = [
     description: "자격, 전문 분야, 첫 만남에서 확인할 것까지. 막막한 선택을 조금 더 분명하게 만드는 질문들.",
     topics: ["상담자 선택", "전문성", "첫 상담", "상담 관계"],
     relatedServices: ["individual", "couple", "child-parent", "trauma"],
+    relatedTools: [],
     sourcePlatform: "website",
     originalUrl: null,
     publishedAt: "2026-08-13",
@@ -107,6 +109,7 @@ export const guideArticles: GuideArticle[] = [
     description: "잘 말해야 한다는 부담 없이 첫 회기를 시작하기 위해 알아두면 좋은 것들.",
     topics: ["첫 상담", "상담 준비", "초기 상담"],
     relatedServices: ["individual", "couple", "child-parent"],
+    relatedTools: [],
     sourcePlatform: "website",
     originalUrl: null,
     publishedAt: "2026-08-13",
@@ -129,6 +132,7 @@ export const guideArticles: GuideArticle[] = [
     description: "변화가 더디게 느껴질 때 살펴볼 신호와 상담자에게 꺼내볼 질문을 정리했습니다.",
     topics: ["상담 과정", "변화", "상담 목표", "상담 관계"],
     relatedServices: ["individual", "couple", "trauma"],
+    relatedTools: [],
     sourcePlatform: "website",
     originalUrl: null,
     publishedAt: "2026-08-13",
@@ -151,6 +155,7 @@ export const guideArticles: GuideArticle[] = [
     description: "가까워지고 싶은 마음과 다치지 않으려는 마음이 동시에 움직이는 이유.",
     topics: ["애착", "트라우마", "관계", "안전감"],
     relatedServices: ["trauma", "individual", "couple"],
+    relatedTools: [],
     sourcePlatform: "website",
     originalUrl: null,
     publishedAt: "2026-08-13",
@@ -173,6 +178,7 @@ export const guideArticles: GuideArticle[] = [
     description: "가속경험적 역동치료가 안전한 관계와 감정의 경험을 중요하게 보는 이유.",
     topics: ["AEDP", "감정", "치료 관계", "애착"],
     relatedServices: ["individual", "trauma"],
+    relatedTools: [],
     sourcePlatform: "website",
     originalUrl: null,
     publishedAt: "2026-08-13",
@@ -195,6 +201,7 @@ export const guideArticles: GuideArticle[] = [
     description: "신체 기반 심리치료가 몸의 감각과 신경계 반응을 함께 살피는 이유.",
     topics: ["신체 기반 심리치료", "신경계", "긴장", "SP", "트라우마"],
     relatedServices: ["trauma", "individual"],
+    relatedTools: [],
     sourcePlatform: "website",
     originalUrl: null,
     publishedAt: "2026-08-13",
@@ -217,6 +224,7 @@ export const guideArticles: GuideArticle[] = [
     description: "검사 결과를 낙인이 아니라 더 좋은 질문을 만드는 자료로 사용하는 법.",
     topics: ["심리검사", "심리평가", "해석상담", "검사 결과"],
     relatedServices: ["assessment"],
+    relatedTools: [],
     sourcePlatform: "website",
     originalUrl: null,
     publishedAt: "2026-08-13",
@@ -239,6 +247,7 @@ export const guideArticles: GuideArticle[] = [
     description: "그만두는 통보가 아니라 변화와 관계를 충분히 정리하는 과정으로서의 종결.",
     topics: ["상담 종결", "상담 과정", "변화", "재상담"],
     relatedServices: ["individual", "couple", "trauma"],
+    relatedTools: [],
     sourcePlatform: "website",
     originalUrl: null,
     publishedAt: "2026-08-13",
@@ -286,4 +295,3 @@ export function getRelatedGuidesForService(serviceId: string, limit = 3) {
 export function formatGuideDate(value: string) {
   return value.replaceAll("-", ".");
 }
-

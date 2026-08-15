@@ -5,6 +5,7 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { PageHero } from "@/components/PageHero";
 import { careServices, getCareService, getRelatedGuidesForService } from "@/lib/content";
+import { getRelatedToolsForService } from "@/lib/tools";
 
 type CareServicePageProps = { params: Promise<{ id: string }> };
 
@@ -39,6 +40,7 @@ export default async function CareServicePage({ params }: CareServicePageProps) 
   if (!service) notFound();
 
   const relatedGuides = getRelatedGuidesForService(service.id);
+  const relatedTools = getRelatedToolsForService(service.id);
 
   return (
     <>
@@ -76,9 +78,16 @@ export default async function CareServicePage({ params }: CareServicePageProps) 
             </div>
           </section>
         )}
+        {relatedTools.length > 0 && (
+          <section className="section guide-tools-section">
+            <div className="shell">
+              <div className="section-head"><div><span className="section-kicker">RELATED TOOLS</span><h2>일상에서 직접 해보고 싶다면</h2></div></div>
+              <div className="related-grid">{relatedTools.map((item) => <Link href={`/tools/${item.slug}`} key={item.slug}><span>{item.category} · {item.format}</span><h3>{item.title}</h3><p>{item.description}</p><b>→</b></Link>)}</div>
+            </div>
+          </section>
+        )}
       </main>
       <Footer />
     </>
   );
 }
-
