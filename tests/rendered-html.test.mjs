@@ -1,5 +1,10 @@
 import assert from "node:assert/strict";
+import { readdir, readFile } from "node:fs/promises";
+import { dirname, join } from "node:path";
 import test from "node:test";
+import { fileURLToPath } from "node:url";
+
+const projectRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
 
 async function render(pathname = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
@@ -39,6 +44,21 @@ test("renders the finished Korean brand home", async () => {
   const toolsIndex = html.indexOf("알고 끝나지 않고");
   const relayIndex = html.indexOf("상담과 상담 사이,");
   assert.ok(careIndex < guideIndex && guideIndex < toolsIndex && toolsIndex < relayIndex);
+});
+
+test("keeps public navigation independent from the broken client router", async () => {
+  for (const directory of ["app", "components"]) {
+    const root = join(projectRoot, directory);
+    const files = await readdir(root, { recursive: true });
+
+    for (const file of files.filter((entry) => /\.[jt]sx$/.test(entry))) {
+      const source = await readFile(join(root, file), "utf8");
+      assert.doesNotMatch(source, /from ["']next\/link["']/, join(directory, file));
+    }
+  }
+
+  const siteLink = await readFile(join(projectRoot, "components", "SiteLink.tsx"), "utf8");
+  assert.match(siteLink, /return <a href=\{href\}[^>]*>\{children\}<\/a>/);
 });
 
 test("renders core product routes", async () => {

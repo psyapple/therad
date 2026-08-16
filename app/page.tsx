@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/SiteLink";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { StarMark } from "@/components/StarMark";
