@@ -4,8 +4,8 @@ import { notFound } from "next/navigation";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { PageHero } from "@/components/PageHero";
-import { formatGuideDate, getCareService, getGuideArticle } from "@/lib/content";
-import { getToolItem, toolItems } from "@/lib/tools";
+import { formatGuideDate, getCareService } from "@/lib/content";
+import { getRelatedGuidesForTool, getToolItem, toolItems } from "@/lib/tools";
 
 type ToolPageProps = { params: Promise<{ slug: string }> };
 
@@ -29,7 +29,7 @@ export default async function ToolPage({ params }: ToolPageProps) {
   const item = getToolItem((await params).slug);
   if (!item) notFound();
 
-  const relatedGuides = item.relatedGuides.map(getGuideArticle).filter((guide) => guide !== undefined);
+  const relatedGuides = getRelatedGuidesForTool(item);
   const relatedServices = item.relatedServices.map(getCareService).filter((service) => service !== undefined);
 
   return (

@@ -73,7 +73,7 @@ test("renders connected CARE and GUIDE detail routes", async () => {
   assert.match(careHtml, /새벽별에서는/);
   assert.match(careHtml, /진행 과정/);
   assert.match(careHtml, /조금 더 이해하고 싶다면/);
-  assert.match(careHtml, /애착과 트라우마는 어떻게 연결될까요/);
+  assert.match(careHtml, /불안정애착, 애착 손상, 애착 트라우마, 발달 트라우마는 어떻게 다를까요/);
   assert.doesNotMatch(careHtml, /TODO|미정|상담 비용|회기 시간|예약 URL/);
 
   const guideResponse = await render("/guide/attachment-and-trauma");
@@ -100,5 +100,32 @@ test("renders all five CARE v1.0 service routes from shared data", async () => {
     assert.match(html, /HOME.*CARE/);
     assert.match(html, /상담을 알아보고 있다면/);
     assert.doesNotMatch(html, /TODO|미정/);
+  }
+});
+
+test("renders source-derived GUIDE and bidirectional TOOL relations", async () => {
+  const guideResponse = await render("/guide/how-to-start-therapy");
+  assert.equal(guideResponse.status, 200);
+  const guideHtml = await guideResponse.text();
+  assert.match(guideHtml, /심리상담, 무엇부터 시작하면 될까요/);
+  assert.match(guideHtml, /첫 상담 준비 체크리스트/);
+  assert.match(guideHtml, /새벽별에서 이용할 수 있어요/);
+
+  const toolResponse = await render("/tools/relationship-distance-question");
+  assert.equal(toolResponse.status, 200);
+  const toolHtml = await toolResponse.text();
+  assert.match(toolHtml, /가족과의 거리 다시 생각하기/);
+  assert.match(toolHtml, /애착은 한 가지 유형으로만 설명되지 않습니다/);
+  assert.match(toolHtml, /전문적인 도움이 필요하다면/);
+});
+
+test("returns 404 for unknown GUIDE, TOOL, and CARE records", async () => {
+  for (const pathname of [
+    "/guide/not-a-real-guide",
+    "/tools/not-a-real-tool",
+    "/care/not-a-real-service",
+  ]) {
+    const response = await render(pathname);
+    assert.equal(response.status, 404, pathname);
   }
 });

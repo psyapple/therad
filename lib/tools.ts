@@ -1,4 +1,5 @@
-import { getCareService, getGuideArticle, type CareService } from "@/lib/content";
+import { getCareService, type CareService } from "@/lib/content";
+import { getGuideArticle, guideArticles } from "@/lib/guide-all";
 import { sourceDerivedTools } from "@/lib/source-derived-tools";
 
 export const toolCategories = ["감정", "관계", "자기돌봄", "상담"] as const;
@@ -139,6 +140,18 @@ export function getRelatedToolsForGuide(guideSlug: string, limit = 3) {
   return toolItems
     .filter((item) => item.relatedGuides.includes(guideSlug) || guide?.relatedTools.includes(item.slug))
     .slice(0, limit);
+}
+
+export function getRelatedGuidesForTool(item: ToolItem, limit = 3) {
+  const relatedSlugs = new Set(item.relatedGuides);
+  const explicitGuides = item.relatedGuides
+    .map(getGuideArticle)
+    .filter((guide) => guide !== undefined);
+  const reverseRelatedGuides = guideArticles.filter(
+    (guide) => !relatedSlugs.has(guide.slug) && guide.relatedTools.includes(item.slug),
+  );
+
+  return [...explicitGuides, ...reverseRelatedGuides].slice(0, limit);
 }
 
 export function getRelatedToolsForService(serviceId: CareService["id"], limit = 3) {
