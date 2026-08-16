@@ -3,7 +3,7 @@ import { Footer } from "@/components/Footer";
 import { GuideExplorer } from "@/components/GuideExplorer";
 import { Header } from "@/components/Header";
 import { PageHero } from "@/components/PageHero";
-import { guideArticles, guideCategories } from "@/lib/guide-archive";
+import { guideArticles, guideCategories } from "@/lib/guide-all";
 
 export const metadata: Metadata = {
   title: "GUIDE · 심리상담 가이드",
