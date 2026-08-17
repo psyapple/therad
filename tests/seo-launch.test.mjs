@@ -131,4 +131,3 @@ test("keeps public domain and verification settings configurable", async () => {
   assert.match(sources[1], /GOOGLE_SITE_VERIFICATION/);
   assert.match(sources[1], /NAVER_SITE_VERIFICATION/);
 });
-
