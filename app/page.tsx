@@ -172,7 +172,7 @@ export default function Home() {
               ))}
             </nav>
             <div className="guide-card-grid">
-              {guideArticles.slice(0, 3).map((article, index) => (
+              {guideArticles.filter((article) => article.featured).slice(0, 3).map((article, index) => (
                 <Link className="guide-card" href={`/guide/${article.slug}`} key={article.slug}>
                   <div className={`guide-art guide-art-${index + 1}`} aria-hidden="true">
                     <span className="guide-art-label">{article.categoryEn}</span>

@@ -3,6 +3,7 @@ import Link from "@/components/SiteLink";
 import { notFound } from "next/navigation";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { MarkdownBlocks, MarkdownInline } from "@/components/MarkdownBlocks";
 import { StarMark } from "@/components/StarMark";
 import { formatGuideDate, getCareService } from "@/lib/content";
 import { getGuideArticle, getRelatedGuides, guideArticles } from "@/lib/guide-all";
@@ -54,9 +55,9 @@ export default async function GuideArticlePage({ params }: GuidePageProps) {
               <div><span>주제</span><strong>{article.category}</strong></div><div><span>읽는 시간</span><strong>{article.readTime}</strong></div><div><span>키워드</span><strong>{article.topics.slice(0, 2).join(" · ")}</strong></div><div><span>업데이트</span><strong>{formatGuideDate(article.updatedAt)}</strong></div><div className="share-note"><span aria-hidden="true">✦</span><p>필요한 사람에게 이 글을 건네도 좋아요.</p></div>
             </aside>
             <div className="article-body">
-              <p className="article-lead">{article.intro}</p>
-              {article.sections.map((section, index) => <section key={section.heading}><span className="article-section-number">0{index + 1}</span><h2>{section.heading}</h2>{section.paragraphs?.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}{section.bullets && <ul>{section.bullets.map((bullet) => <li key={bullet}>{bullet}</li>)}</ul>}{section.note && <div className="article-note"><strong>새벽별 NOTE</strong><p>{section.note}</p></div>}</section>)}
-              <div className="takeaway"><StarMark size="medium" /><div><strong>기억해두면 좋은 한 문장</strong><p>{article.takeaway}</p></div></div>
+              <p className="article-lead"><MarkdownInline text={article.intro} /></p>
+              {article.sections.map((section, index) => <section key={section.heading}><span className="article-section-number">0{index + 1}</span><h2><MarkdownInline text={section.heading} /></h2><MarkdownBlocks blocks={section.blocks} /></section>)}
+              <div className="takeaway"><StarMark size="medium" /><div><strong>기억해두면 좋은 한 문장</strong><p><MarkdownInline text={article.takeaway} /></p></div></div>
               <div className="article-disclaimer">이 글은 일반적인 심리교육 정보이며 개인에 대한 진단이나 치료를 대신하지 않습니다. 현재 어려움이 일상 기능을 크게 방해한다면 적절한 전문가와 상의하세요.</div>
             </div>
           </div>

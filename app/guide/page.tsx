@@ -3,6 +3,8 @@ import { Footer } from "@/components/Footer";
 import { GuideExplorer } from "@/components/GuideExplorer";
 import { Header } from "@/components/Header";
 import { PageHero } from "@/components/PageHero";
+import Link from "@/components/SiteLink";
+import { columnArticles } from "@/lib/columns";
 import { guideArticles, guideCategories } from "@/lib/guide-all";
 
 export const metadata: Metadata = {
@@ -32,6 +34,14 @@ export default async function GuidePage({ searchParams }: GuidePageProps) {
             <GuideExplorer articles={guideArticles} initialCategory={initialCategory} />
           </div>
         </section>
+        {columnArticles.length > 0 && (
+          <section className="section guide-column-section">
+            <div className="shell">
+              <div className="section-head"><div><span className="section-kicker">FROM SAEBYEOKBYEOL</span><h2>COLUMN</h2><p className="section-description">상담과 마음에 대해<br />조금 더 오래 생각해본 것들.</p></div><Link className="arrow-link" href="/column">COLUMN 전체 보기 →</Link></div>
+              <div className="related-grid">{columnArticles.slice(0, 3).map((article) => <Link href={`/column/${article.slug}`} key={article.slug}><span>{article.author} · {article.publishedAt}</span><h3>{article.title}</h3><p>{article.description}</p><b>→</b></Link>)}</div>
+            </div>
+          </section>
+        )}
         <section className="guide-principle">
           <div className="shell guide-principle-grid">
             <span className="section-kicker">OUR EDITORIAL PRINCIPLE</span>

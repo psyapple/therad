@@ -3,6 +3,7 @@ import Link from "@/components/SiteLink";
 import { notFound } from "next/navigation";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { MarkdownBlocks } from "@/components/MarkdownBlocks";
 import { PageHero } from "@/components/PageHero";
 import { formatGuideDate, getCareService } from "@/lib/content";
 import { getRelatedGuidesForTool, getToolItem, toolItems } from "@/lib/tools";
@@ -44,8 +45,8 @@ export default async function ToolPage({ params }: ToolPageProps) {
               <dl><div><dt>형식</dt><dd>{item.format}</dd></div><div><dt>주제</dt><dd>{item.topics.join(" · ")}</dd></div><div><dt>업데이트</dt><dd>{formatGuideDate(item.updatedAt)}</dd></div></dl>
             </aside>
             <div className="tool-detail-body">
-              {item.sections?.map((section) => (
-                <section key={section.heading}><h2>{section.heading}</h2>{section.paragraphs?.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}{section.prompts && <ul>{section.prompts.map((prompt) => <li key={prompt}>{prompt}</li>)}</ul>}</section>
+              {item.sections.map((section) => (
+                <section key={section.heading}><h2>{section.heading}</h2><MarkdownBlocks blocks={section.blocks} /></section>
               ))}
             </div>
           </div>

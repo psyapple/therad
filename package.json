@@ -6,13 +6,17 @@
     "node": ">=22.13.0"
   },
   "scripts": {
+    "predev": "npm run generate:content",
     "dev": "vinext dev",
     "content:sync": "node scripts/sync-public-content.mjs",
-    "prebuild": "node scripts/sync-public-content.mjs --allow-stale",
+    "generate:content": "node scripts/content-pipeline.mjs --generate",
+    "validate:content": "node scripts/content-pipeline.mjs --validate",
+    "test:content": "npm run generate:content && node --test tests/content-architecture.test.mjs",
+    "prebuild": "node scripts/sync-public-content.mjs --allow-stale && npm run generate:content",
     "build": "vinext build",
     "start": "vinext start",
-    "test": "npm run build && node --test tests/rendered-html.test.mjs",
-    "lint": "eslint app components lib tests --max-warnings=0",
+    "test": "npm run build && node --test tests/*.test.mjs",
+    "lint": "eslint app components lib scripts tests --max-warnings=0",
     "db:generate": "drizzle-kit generate"
   },
   "dependencies": {

@@ -3,6 +3,7 @@ import { readdir, readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
+import generatedContent from "../lib/generated-content.json" with { type: "json" };
 
 const projectRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -73,6 +74,28 @@ test("renders core product routes", async () => {
     assert.equal(response.status, 200, pathname);
     assert.match(await response.text(), new RegExp(text));
   }
+});
+
+test("preserves every migrated GUIDE and TOOL route", async () => {
+  for (const guide of generatedContent.guides) {
+    const response = await render(`/guide/${guide.slug}`);
+    assert.equal(response.status, 200, `/guide/${guide.slug}`);
+    assert.match(await response.text(), new RegExp(guide.title.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+  }
+  for (const tool of generatedContent.tools) {
+    const response = await render(`/tools/${tool.slug}`);
+    assert.equal(response.status, 200, `/tools/${tool.slug}`);
+    assert.match(await response.text(), new RegExp(tool.title.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+  }
+});
+
+test("supports an empty COLUMN archive without exposing an empty GUIDE section", async () => {
+  const columnResponse = await render("/column");
+  assert.equal(columnResponse.status, 200);
+  assert.match(await columnResponse.text(), /상담과 마음에 대해/);
+  const guideResponse = await render("/guide");
+  assert.equal(guideResponse.status, 200);
+  assert.doesNotMatch(await guideResponse.text(), /FROM SAEBYEOKBYEOL|COLUMN 전체 보기/);
 });
 
 test("publishes Kakao-first contact information without storing inquiry details", async () => {
