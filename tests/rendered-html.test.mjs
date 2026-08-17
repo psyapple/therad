@@ -75,6 +75,51 @@ test("renders core product routes", async () => {
   }
 });
 
+test("publishes Kakao-first contact information without storing inquiry details", async () => {
+  const response = await render("/contact");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /정리된 질문이 아니어도/);
+  assert.match(html, /https:\/\/pf\.kakao\.com\/_bPuxan/);
+  assert.match(html, /카카오채널로 문의하기/);
+  assert.match(html, /상담·심리평가/);
+  assert.match(html, /교육·기관·협업/);
+  assert.match(html, /웹사이트는 이 내용을 저장하거나 전송하지 않습니다/);
+  assert.doesNotMatch(html, /Instagram 열기/);
+});
+
+test("renders transparent CARE session and assessment information", async () => {
+  for (const [pathname, expected] of [
+    ["/care/individual", ["50 MIN", "80,000 KRW", "단회기 상담", "80 MIN", "120,000 KRW"]],
+    ["/care/couple", ["80 MIN", "150,000 KRW", "대면 및 화상상담"]],
+    ["/care/child-parent", ["아동 40분 + 보호자 10분", "80,000 KRW", "양육코칭", "100,000 KRW"]],
+    ["/care/trauma-attachment", ["60 MIN", "100,000 KRW", "90 MIN", "150,000 KRW"]],
+  ]) {
+    const response = await render(pathname);
+    assert.equal(response.status, 200, pathname);
+    const html = await response.text();
+    for (const text of expected) assert.ok(html.includes(text), `${pathname}: ${text}`);
+  }
+
+  const assessmentResponse = await render("/care/assessment");
+  assert.equal(assessmentResponse.status, 200);
+  const assessmentHtml = await assessmentResponse.text();
+  for (const text of ["무엇을 알고 싶은지에서", "개인심리평가 A", "부모자녀 상호작용 평가", "PREPARE / ENRICH", "심리도식평가", "애착유형평가", "해석상담이 포함됩니다", "서면 보고서가 필요한 경우 별도 비용"]) {
+    assert.ok(assessmentHtml.includes(text), text);
+  }
+});
+
+test("publishes the official practitioner profile and expanded work areas", async () => {
+  const response = await render("/about");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  for (const text of ["당신만의 고유성이 빛나도록", "이해 — 안정 — 회복 — 연결 — 일상으로의 번역과 확장", "새벽별심리상담센터 대표", "상담심리사 2급", "TRAINING &amp; APPROACH", "숙명여자대학교 아동심리치료 박사수료", "BEYOND THE COUNSELING ROOM", "교육청 프로그램", "웰니스 협업"]) {
+    assert.match(html, new RegExp(text));
+  }
+  assert.match(html, /https:\/\/blog\.naver\.com\/dawnstar_mindtherapy/);
+  assert.doesNotMatch(html, /세부 학력·수련·경력은 문의 과정에서 확인/);
+});
+
 test("keeps Insight Relay clearly in development without invented functions", async () => {
   const response = await render("/insight-relay");
   assert.equal(response.status, 200);
@@ -109,7 +154,7 @@ test("renders all five CARE v1.0 service routes from shared data", async () => {
     ["/care/individual", "개인 심리상담", "혼자 이해하고 해결하려 했지만"],
     ["/care/couple", "커플·부부상담", "누가 옳은지를 정하기보다"],
     ["/care/child-parent", "놀이치료·양육코칭", "아이의 행동만 바꾸기보다"],
-    ["/care/assessment", "심리평가", "검사의 숫자만 확인하는 것이 아니라"],
+    ["/care/assessment", "심리평가", "검사 이름을 먼저 고르기보다"],
     ["/care/trauma-attachment", "트라우마·애착 상담", "과거의 경험이 지금의 감정과 관계"],
   ]) {
     const response = await render(pathname);
@@ -118,7 +163,7 @@ test("renders all five CARE v1.0 service routes from shared data", async () => {
     assert.match(html, new RegExp(title));
     assert.match(html, new RegExp(description));
     assert.match(html, /HOME.*CARE/);
-    assert.match(html, /상담을 알아보고 있다면/);
+    assert.match(html, pathname === "/care/assessment" ? /어떤 평가가 필요한지 궁금하다면/ : /상담을 알아보고 있다면/);
     assert.doesNotMatch(html, /TODO|미정/);
   }
 });

@@ -1,6 +1,7 @@
 import Link from "@/components/SiteLink";
 import { BrandLogo } from "./BrandLogo";
 import { publicContent } from "@/lib/public-content";
+import { kakaoChannelUrl } from "@/lib/contact";
 
 export function Footer() {
   return (
@@ -26,6 +27,7 @@ export function Footer() {
         <div className="footer-column">
           <span className="footer-label">CONNECT</span>
           <Link href="/contact">상담 및 협업 문의</Link>
+          <a href={kakaoChannelUrl} target="_blank" rel="noreferrer noopener">KAKAO CHANNEL ↗</a>
           <a href={publicContent.blog.profileUrl} target="_blank" rel="noreferrer">NAVER BLOG ↗</a>
           <a href={publicContent.notion.publicUrl} target="_blank" rel="noreferrer">NOTION GUIDE ↗</a>
           <a href={publicContent.instagram.profileUrl} target="_blank" rel="noreferrer">INSTAGRAM ↗</a>

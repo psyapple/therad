@@ -15,19 +15,29 @@ export type CareService = {
   relatedGuides: string[];
   relatedTools: string[];
   process?: CareProcessStep[];
-  assessmentCatalog: Array<{
+  sessionInformation: CareSessionOption[];
+  assessmentGroups?: AssessmentGroup[];
+};
+
+export type CareSessionOption = {
+  name: string;
+  duration: string;
+  fee: string;
+  detail?: string;
+  description?: string;
+  notes?: string[];
+};
+
+export type AssessmentGroup = {
+  code: string;
+  title: string;
+  items: Array<{
     name: string;
-    price: string | null;
-    duration: string | null;
-    resultConsultation: string | null;
+    question: string;
+    fee: string;
+    detail?: string;
+    badge?: string;
   }>;
-  operations: {
-    fee: string | null;
-    sessionLength: string | null;
-    availability: string | null;
-    practitionerAssignment: string | null;
-    bookingUrl: string | null;
-  };
 };
 
 export type CareProcessStep = {
@@ -42,14 +52,6 @@ export const defaultCareProcess: CareProcessStep[] = [
   { number: "03", title: "진행", description: "필요와 목표에 맞춰 상담 또는 평가를 진행합니다." },
   { number: "04", title: "함께 돌아보기", description: "진행 과정과 변화, 이후 필요한 도움을 함께 살펴봅니다." },
 ];
-
-const unconfirmedCareOperations: CareService["operations"] = {
-  fee: null,
-  sessionLength: null,
-  availability: null,
-  practitionerAssignment: null,
-  bookingUrl: null,
-};
 
 export const careServices: CareService[] = [
   {
@@ -80,8 +82,21 @@ export const careServices: CareService[] = [
     ],
     relatedGuides: ["before-your-first-session", "is-therapy-working", "what-is-aedp"],
     relatedTools: [],
-    assessmentCatalog: [],
-    operations: { ...unconfirmedCareOperations },
+    sessionInformation: [
+      {
+        name: "개인 심리상담",
+        duration: "50 MIN",
+        fee: "80,000 KRW",
+        notes: ["대면 및 화상상담을 이용할 수 있으며 비용은 동일합니다."],
+      },
+      {
+        name: "단회기 상담",
+        duration: "80 MIN",
+        fee: "120,000 KRW",
+        description: "한 번의 긴 회기 안에서 비교적 명확한 주제나 현재의 고민을 집중적으로 살펴보고 싶은 경우 이용할 수 있습니다.",
+        notes: ["필요한 경우 이후 상담으로 이어갈 수 있습니다."],
+      },
+    ],
   },
   {
     id: "couple",
@@ -102,8 +117,14 @@ export const careServices: CareService[] = [
     methods: [],
     relatedGuides: ["attachment-and-trauma", "is-therapy-working", "ending-therapy"],
     relatedTools: [],
-    assessmentCatalog: [],
-    operations: { ...unconfirmedCareOperations },
+    sessionInformation: [
+      {
+        name: "커플·부부상담",
+        duration: "80 MIN",
+        fee: "150,000 KRW",
+        notes: ["대면 및 화상상담을 이용할 수 있으며 비용은 동일합니다."],
+      },
+    ],
   },
   {
     id: "child-parent",
@@ -124,8 +145,20 @@ export const careServices: CareService[] = [
     methods: [],
     relatedGuides: ["choosing-a-therapist", "before-your-first-session"],
     relatedTools: [],
-    assessmentCatalog: [],
-    operations: { ...unconfirmedCareOperations },
+    sessionInformation: [
+      {
+        name: "놀이치료",
+        duration: "50 MIN",
+        fee: "80,000 KRW",
+        detail: "아동 40분 + 보호자 10분",
+      },
+      {
+        name: "양육코칭",
+        duration: "60 MIN",
+        fee: "100,000 KRW",
+        description: "현재의 양육 고민과 부모·아이 사이의 상호작용을 함께 살펴보고 구체적인 방향을 찾습니다.",
+      },
+    ],
   },
   {
     id: "assessment",
@@ -145,8 +178,41 @@ export const careServices: CareService[] = [
     methods: [],
     relatedGuides: ["psychological-assessment-guide"],
     relatedTools: [],
-    assessmentCatalog: [],
-    operations: { ...unconfirmedCareOperations },
+    sessionInformation: [],
+    assessmentGroups: [
+      {
+        code: "A",
+        title: "나를 이해하기",
+        items: [
+          { name: "개인심리평가 A", question: "특별한 어려움은 없지만 나 자신을 조금 더 이해하고 싶을 때", fee: "100,000 KRW" },
+          { name: "개인심리평가 B", question: "심리적인 어려움이나 고통이 있고 상담 방향을 함께 정하고 싶을 때", fee: "150,000 KRW" },
+        ],
+      },
+      {
+        code: "B",
+        title: "부모와 아이를 이해하기",
+        items: [
+          { name: "부모자녀 기질·양육태도 평가", question: "부모와 자녀의 기질 차이와 양육 관계를 이해하고 싶을 때", fee: "200,000 KRW", detail: "2인 기준 · 인원에 따라 추가비용 발생" },
+          { name: "부모자녀 상호작용 평가", question: "실제 부모-자녀 상호작용을 비디오로 살펴보고 구체적인 피드백을 받고 싶을 때", fee: "300,000 KRW", detail: "2인 기준 · 인원에 따라 추가비용 발생" },
+        ],
+      },
+      {
+        code: "C",
+        title: "우리 관계를 이해하기",
+        items: [
+          { name: "커플평가 A", question: "각자를 이해하고 우리의 관계를 함께 이해하고 싶을 때", fee: "160,000 KRW" },
+          { name: "PREPARE / ENRICH", question: "결혼 전·후 커플의 관계를 구조적으로 살펴보기 위해 개발된 평가", fee: "300,000 KRW" },
+        ],
+      },
+      {
+        code: "D",
+        title: "특정 패턴을 깊게 이해하기",
+        items: [
+          { name: "심리도식평가", question: "반복되는 심리도식과 관계·정서 패턴을 더 깊게 살펴보고 싶을 때", fee: "150,000–300,000 KRW", detail: "약식 / 전체" },
+          { name: "애착유형평가", question: "고정된 유형을 판정하기보다 관계 안에서 나타나는 나의 애착 패턴을 조금 더 구체적으로 이해하고 싶을 때", fee: "100,000 KRW", badge: "SAEBYEOKBYEOL SIGNATURE" },
+        ],
+      },
+    ],
   },
   {
     id: "trauma-attachment",
@@ -170,8 +236,19 @@ export const careServices: CareService[] = [
     ],
     relatedGuides: ["attachment-and-trauma", "what-is-aedp", "body-remembers"],
     relatedTools: [],
-    assessmentCatalog: [],
-    operations: { ...unconfirmedCareOperations },
+    sessionInformation: [
+      {
+        name: "트라우마·애착 상담",
+        duration: "60 MIN",
+        fee: "100,000 KRW",
+        notes: ["대면 및 화상상담을 이용할 수 있으며 비용은 동일합니다.", "필요한 시간은 상담 내용과 상황에 따라 선택할 수 있습니다."],
+      },
+      {
+        name: "트라우마·애착 상담",
+        duration: "90 MIN",
+        fee: "150,000 KRW",
+      },
+    ],
   },
 ];
 

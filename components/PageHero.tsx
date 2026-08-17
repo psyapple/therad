@@ -6,9 +6,10 @@ type PageHeroProps = {
   description: string;
   index: string;
   tone?: "light" | "night" | "lavender";
+  actions?: React.ReactNode;
 };
 
-export function PageHero({ eyebrow, title, description, index, tone = "light" }: PageHeroProps) {
+export function PageHero({ eyebrow, title, description, index, tone = "light", actions }: PageHeroProps) {
   return (
     <section className={`page-hero page-hero-${tone}`}>
       <div className="shell page-hero-grid">
@@ -16,6 +17,7 @@ export function PageHero({ eyebrow, title, description, index, tone = "light" }:
           <div className="eyebrow-line"><StarMark size="small" /><span>{eyebrow}</span></div>
           <h1>{title}</h1>
           <p>{description}</p>
+          {actions && <div className="page-hero-actions">{actions}</div>}
         </div>
         <div className="page-hero-index" aria-hidden="true">
           <span>{index}</span>
