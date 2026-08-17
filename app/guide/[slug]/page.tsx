@@ -5,8 +5,10 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { MarkdownBlocks, MarkdownInline } from "@/components/MarkdownBlocks";
 import { StarMark } from "@/components/StarMark";
+import { StructuredData, articleStructuredData, breadcrumbStructuredData } from "@/components/StructuredData";
 import { formatGuideDate, getCareService } from "@/lib/content";
 import { getGuideArticle, getRelatedGuides, guideArticles } from "@/lib/guide-all";
+import { createPageMetadata, getSiteOrigin } from "@/lib/seo";
 import { getRelatedToolsForGuide } from "@/lib/tools";
 
 type GuidePageProps = { params: Promise<{ slug: string }> };
@@ -19,12 +21,14 @@ export async function generateMetadata({ params }: GuidePageProps): Promise<Meta
   const { slug } = await params;
   const article = getGuideArticle(slug);
   if (!article) return {};
-  return {
+  return createPageMetadata({
+    path: `/guide/${article.slug}`,
     title: article.title,
     description: article.description,
-    openGraph: { type: "article", title: article.title, description: article.description, publishedTime: article.publishedAt, modifiedTime: article.updatedAt, images: [] },
-    twitter: { card: "summary", title: article.title, description: article.description, images: [] },
-  };
+    kind: "article",
+    publishedAt: article.publishedAt,
+    updatedAt: article.updatedAt,
+  });
 }
 
 export default async function GuideArticlePage({ params }: GuidePageProps) {
@@ -34,11 +38,14 @@ export default async function GuideArticlePage({ params }: GuidePageProps) {
   const related = getRelatedGuides(article);
   const relatedServices = article.relatedServices.map(getCareService).filter((service) => service !== undefined);
   const relatedTools = getRelatedToolsForGuide(article.slug);
+  const origin = await getSiteOrigin();
 
   return (
     <>
       <Header />
       <main>
+        <StructuredData data={articleStructuredData({ origin, path: `/guide/${article.slug}`, title: article.title, description: article.description, publishedAt: article.publishedAt, updatedAt: article.updatedAt })} />
+        <StructuredData data={breadcrumbStructuredData(origin, [{ name: "HOME", path: "/" }, { name: "GUIDE", path: "/guide" }, { name: article.title, path: `/guide/${article.slug}` }])} />
         <article>
           <header className="article-hero">
             <div className="shell article-hero-grid">
@@ -58,7 +65,7 @@ export default async function GuideArticlePage({ params }: GuidePageProps) {
               <p className="article-lead"><MarkdownInline text={article.intro} /></p>
               {article.sections.map((section, index) => <section key={section.heading}><span className="article-section-number">0{index + 1}</span><h2><MarkdownInline text={section.heading} /></h2><MarkdownBlocks blocks={section.blocks} /></section>)}
               <div className="takeaway"><StarMark size="medium" /><div><strong>기억해두면 좋은 한 문장</strong><p><MarkdownInline text={article.takeaway} /></p></div></div>
-              <div className="article-disclaimer">이 글은 일반적인 심리교육 정보이며 개인에 대한 진단이나 치료를 대신하지 않습니다. 현재 어려움이 일상 기능을 크게 방해한다면 적절한 전문가와 상의하세요.</div>
+              <div className="article-disclaimer">이 GUIDE는 일반적인 심리교육 및 정보 콘텐츠이며, 개인에 대한 진단·치료·위기개입을 대신하지 않습니다.</div>
             </div>
           </div>
         </article>

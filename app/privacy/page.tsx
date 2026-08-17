@@ -1,10 +1,31 @@
-import type { Metadata } from "next";
 import Link from "@/components/SiteLink";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = { title: "개인정보 및 이용 안내", description: "새벽별 웹사이트의 개인정보, 외부 채널, 심리교육 콘텐츠 이용 안내입니다." };
+export function generateMetadata() {
+  return createPageMetadata({ path: "/privacy", title: "개인정보 및 이용 안내", description: "새벽별 웹사이트의 개인정보, 외부 채널, 심리교육 콘텐츠와 마음도구 이용 안내입니다." });
+}
 
 export default function PrivacyPage() {
-  return <><Header /><main className="legal-main"><div className="shell legal-wrap"><span className="section-kicker">PRIVACY & USE</span><h1>개인정보 및 이용 안내</h1><p className="legal-updated">마지막 업데이트: 2026년 8월 13일</p><section><h2>1. 이 웹사이트에서 수집하는 정보</h2><p>현재 새벽별 웹사이트는 회원가입, 상담 기록 저장, 문의 폼 전송 기능을 제공하지 않으며 방문자가 입력한 개인정보를 직접 수집하거나 저장하지 않습니다. 문의 문구 복사 기능은 사용자의 기기 안에서만 작동합니다.</p></section><section><h2>2. 외부 채널 이용</h2><p>네이버 블로그와 Instagram 링크를 통해 이동한 뒤 이루어지는 메시지, 계정 정보 및 이용 기록은 각 서비스 제공자의 정책에 따라 처리됩니다. 민감한 개인정보나 상세한 건강정보는 첫 문의에 포함하지 않는 것을 권합니다.</p></section><section><h2>3. 심리교육 콘텐츠</h2><p>GUIDE와 사이트 내 콘텐츠는 일반적인 심리교육과 정보 제공을 목적으로 합니다. 개인에 대한 진단, 치료, 위기 개입 또는 의료적 조언을 대신하지 않습니다.</p></section><section><h2>4. Insight Relay</h2><p>Insight Relay는 현재 개발 중인 별도 서비스입니다. 정식 출시 시 수집하는 정보, 이용 목적, 보관 기간, 사용자의 권리와 안전 조치를 별도의 개인정보 처리 안내와 동의 과정으로 제공합니다.</p></section><section><h2>5. 문의</h2><p>사이트 및 개인정보 안내에 관한 문의는 <Link href="/contact">문의 페이지</Link>의 운영 채널을 이용해주세요.</p></section></div></main><Footer /></>;
+  return (
+    <>
+      <Header />
+      <main className="legal-main">
+        <div className="shell legal-wrap">
+          <span className="section-kicker">PRIVACY & USE</span>
+          <h1>개인정보 및 이용 안내</h1>
+          <p className="legal-updated">마지막 업데이트: 2026년 8월 18일</p>
+          <section><h2>1. 이 웹사이트 자체에서 처리하는 정보</h2><p>현재 새벽별 웹사이트에는 회원가입과 자체 상담 문의폼이 없습니다. 웹사이트에서 상담 기록을 저장하지 않으며, 문의 template 복사 기능으로 복사한 내용도 웹사이트로 전송되거나 저장되지 않습니다.</p></section>
+          <section><h2>2. 카카오채널 문의</h2><p>대표 문의 채널은 카카오채널입니다. 문의 버튼을 누르면 카카오 플랫폼으로 이동하며, 그곳에서 처리되는 개인정보와 이용기록은 카카오의 서비스 및 개인정보 관련 정책을 따릅니다. 첫 문의에서는 주민등록번호, 진단서, 상세 의료정보 또는 불필요하게 자세한 민감정보를 보내지 않아도 됩니다.</p></section>
+          <section><h2>3. 외부 콘텐츠·소셜 채널</h2><p>Instagram, 네이버 블로그와 Notion은 콘텐츠를 읽거나 소식을 확인하는 외부 채널입니다. 대표 상담 문의 채널이 아니며, 각 링크를 통해 이동한 뒤 처리되는 계정 정보와 이용기록은 해당 서비스의 정책을 따릅니다.</p></section>
+          <section><h2>4. 콘텐츠 이용 기준</h2><p>GUIDE와 COLUMN은 일반적인 심리교육 및 정보 콘텐츠입니다. TOOLS는 자기이해와 자기돌봄을 위한 일반적인 도구입니다. 모든 콘텐츠는 개인에 대한 진단·치료·위기개입을 대신하지 않습니다.</p></section>
+          <section><h2>5. 콘텐츠 저작권</h2><p>© 2026 새벽별 심리상담센터. GUIDE, COLUMN, TOOLS의 새벽별 원문 콘텐츠를 사전 동의 없이 상업적으로 재배포하거나 판매하지 말아주세요.</p></section>
+          <section><h2>6. Insight Relay</h2><p>Insight Relay는 현재 개발 중인 별도 서비스입니다. 정식 출시 시 실제 정보 처리 구조에 맞는 개인정보 안내와 필요한 동의 절차를 별도로 제공합니다.</p></section>
+          <section><h2>7. 문의</h2><p>사이트 및 개인정보·콘텐츠 이용 안내에 관한 문의는 <Link href="/contact">문의 페이지</Link>에서 대표 카카오채널을 이용해주세요.</p></section>
+        </div>
+      </main>
+      <Footer />
+    </>
+  );
 }

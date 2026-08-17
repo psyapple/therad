@@ -1,15 +1,14 @@
-import type { Metadata } from "next";
 import Link from "@/components/SiteLink";
 import { BrandLogo } from "@/components/BrandLogo";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { PageHero } from "@/components/PageHero";
 import { careerBlogUrl } from "@/lib/contact";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "새벽별 소개",
-  description: "CARE, GUIDE, TOOLS를 통해 복잡한 마음을 삶에서 사용할 수 있는 언어와 도구로 번역하는 새벽별을 소개합니다.",
-};
+export function generateMetadata() {
+  return createPageMetadata({ path: "/about", title: "새벽별 소개", description: "CARE, GUIDE, TOOLS를 통해 복잡한 마음을 삶에서 사용할 수 있는 언어와 도구로 번역하는 새벽별을 소개합니다." });
+}
 
 const values = [
   { number: "01", title: "안전이 먼저입니다", copy: "빠른 해답보다 충분히 말할 수 있는 관계, 감당할 수 있는 속도, 분명한 경계를 중요하게 생각합니다." },

@@ -1,14 +1,13 @@
-import type { Metadata } from "next";
 import Link from "@/components/SiteLink";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { PageHero } from "@/components/PageHero";
 import { columnArticles } from "@/lib/columns";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "COLUMN · 새벽별의 관점",
-  description: "상담과 마음에 대해 새벽별이 조금 더 오래 생각해본 글을 모았습니다.",
-};
+export function generateMetadata() {
+  return createPageMetadata({ path: "/column", title: "COLUMN · 새벽별의 관점", description: "상담과 마음에 대해 새벽별이 조금 더 오래 생각해본 글을 모았습니다." });
+}
 
 export default function ColumnPage() {
   return (

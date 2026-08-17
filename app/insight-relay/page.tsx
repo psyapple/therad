@@ -1,25 +1,18 @@
-import type { Metadata } from "next";
 import Link from "@/components/SiteLink";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { StarMark } from "@/components/StarMark";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Insight Relay",
-  description: "상담과 상담 사이의 시간을 돌볼 수 있도록 준비 중인 between-session self-care service, Insight Relay를 소개합니다.",
-  openGraph: {
-    type: "website",
-    title: "Insight Relay · 현재 개발 중",
-    description: "상담과 상담 사이, 나를 살피고 돌볼 수 있도록 준비 중인 서비스입니다.",
-    images: [],
-  },
-  twitter: {
-    card: "summary",
-    title: "Insight Relay · 현재 개발 중",
-    description: "상담과 상담 사이, 나를 살피고 돌볼 수 있도록 준비 중인 서비스입니다.",
-    images: [],
-  },
-};
+export function generateMetadata() {
+  return createPageMetadata({
+    path: "/insight-relay",
+    title: "Insight Relay",
+    description: "상담과 상담 사이의 시간을 돌볼 수 있도록 준비 중인 between-session self-care service, Insight Relay를 소개합니다.",
+    openGraphTitle: "Insight Relay · 현재 개발 중",
+    openGraphDescription: "상담과 상담 사이, 나를 살피고 돌볼 수 있도록 준비 중인 서비스입니다.",
+  });
+}
 
 export default function InsightRelayPage() {
   return (

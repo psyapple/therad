@@ -5,7 +5,9 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { MarkdownBlocks } from "@/components/MarkdownBlocks";
 import { PageHero } from "@/components/PageHero";
+import { StructuredData, breadcrumbStructuredData } from "@/components/StructuredData";
 import { formatGuideDate, getCareService } from "@/lib/content";
+import { createPageMetadata, getSiteOrigin } from "@/lib/seo";
 import { getRelatedGuidesForTool, getToolItem, toolItems } from "@/lib/tools";
 
 type ToolPageProps = { params: Promise<{ slug: string }> };
@@ -18,12 +20,11 @@ export async function generateMetadata({ params }: ToolPageProps): Promise<Metad
   const item = getToolItem((await params).slug);
   if (!item) return {};
 
-  return {
+  return createPageMetadata({
+    path: `/tools/${item.slug}`,
     title: item.title,
     description: item.description,
-    openGraph: { type: "article", title: item.title, description: item.description, publishedTime: item.publishedAt, modifiedTime: item.updatedAt, images: [] },
-    twitter: { card: "summary", title: item.title, description: item.description, images: [] },
-  };
+  });
 }
 
 export default async function ToolPage({ params }: ToolPageProps) {
@@ -32,11 +33,13 @@ export default async function ToolPage({ params }: ToolPageProps) {
 
   const relatedGuides = getRelatedGuidesForTool(item);
   const relatedServices = item.relatedServices.map(getCareService).filter((service) => service !== undefined);
+  const origin = await getSiteOrigin();
 
   return (
     <>
       <Header />
       <main>
+        <StructuredData data={breadcrumbStructuredData(origin, [{ name: "HOME", path: "/" }, { name: "TOOLS", path: "/tools" }, { name: item.title, path: `/tools/${item.slug}` }])} />
         <PageHero eyebrow={`TOOLS · ${item.category} · ${item.format}`} index="04" tone="lavender" title={item.title} description={item.description} />
         <section className="section tool-detail-section">
           <div className="shell tool-detail-grid">
@@ -48,6 +51,7 @@ export default async function ToolPage({ params }: ToolPageProps) {
               {item.sections.map((section) => (
                 <section key={section.heading}><h2>{section.heading}</h2><MarkdownBlocks blocks={section.blocks} /></section>
               ))}
+              <div className="article-disclaimer">이 TOOLS 콘텐츠는 자기이해와 자기돌봄을 위한 일반적인 도구이며, 개인에 대한 진단·치료·위기개입을 대신하지 않습니다.</div>
             </div>
           </div>
         </section>

@@ -1,11 +1,13 @@
-import type { Metadata } from "next";
 import { ContactChooser } from "@/components/ContactChooser";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { PageHero } from "@/components/PageHero";
 import { kakaoChannelUrl } from "@/lib/contact";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = { title: "문의", description: "새벽별 상담, 교육·협업, Insight Relay 문의 방법을 안내합니다." };
+export function generateMetadata() {
+  return createPageMetadata({ path: "/contact", title: "문의", description: "새벽별 상담, 교육·협업, Insight Relay 문의 방법을 안내합니다." });
+}
 
 type ContactPageProps = {
   searchParams: Promise<{ type?: string }>;

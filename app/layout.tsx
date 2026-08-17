@@ -1,42 +1,47 @@
 import type { Metadata, Viewport } from "next";
-import { headers } from "next/headers";
+import { StructuredData, organizationStructuredData } from "@/components/StructuredData";
+import { absoluteSiteUrl, defaultDescription, defaultTitle, getSiteOrigin } from "@/lib/seo";
 import "./globals.css";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const incoming = await headers();
-  const host = incoming.get("x-forwarded-host") ?? incoming.get("host");
-  const protocol = incoming.get("x-forwarded-proto") ?? (host?.startsWith("localhost") ? "http" : "https");
-  const origin = host ? `${protocol}://${host}` : "https://saebyeokbyeol.kr";
-  const imageUrl = new URL("/og.png", origin).toString();
+  const origin = await getSiteOrigin();
+  const imageUrl = absoluteSiteUrl(origin, "/og.png");
+  const googleVerification = process.env.GOOGLE_SITE_VERIFICATION?.trim();
+  const naverVerification = process.env.NAVER_SITE_VERIFICATION?.trim();
 
   return {
     metadataBase: new URL(origin),
     title: {
-      default: "새벽별 | 마음을 이해하고 살아가는 방법",
+      default: defaultTitle,
       template: "%s | 새벽별",
     },
-    description:
-      "새벽별은 전문적인 심리상담 CARE, 마음을 이해하는 심리학 GUIDE, 일상에서 직접 사용하는 마음도구 TOOLS를 만듭니다.",
+    description: defaultDescription,
     icons: {
-      icon: "/brand-symbol.png",
-      shortcut: "/brand-symbol.png",
-      apple: "/brand-symbol.png",
+      icon: [{ url: "/brand-symbol.png", type: "image/png" }],
+      shortcut: [{ url: "/brand-symbol.png", type: "image/png" }],
+      apple: [{ url: "/brand-symbol.png", type: "image/png" }],
     },
     keywords: ["새벽별", "심리상담", "심리상담 가이드", "마음도구", "심리 워크시트", "AEDP", "SP", "애착", "트라우마", "Insight Relay"],
     openGraph: {
       type: "website",
       locale: "ko_KR",
       siteName: "새벽별",
-      title: "새벽별 | 마음을 이해하고 살아가는 방법",
+      title: defaultTitle,
       description: "마음을 이해하는 일이 살아가는 데 도움이 되도록.",
-      images: [{ url: imageUrl, width: 1736, height: 907, alt: "새벽별 — 마음을 이해하는 일이 살아가는 데 도움이 되도록." }],
+      images: [{ url: imageUrl, width: 1734, height: 907, alt: "새벽별 — 마음을 이해하는 일이 살아가는 데 도움이 되도록." }],
     },
     twitter: {
       card: "summary_large_image",
-      title: "새벽별 | 마음을 이해하고 살아가는 방법",
+      title: defaultTitle,
       description: "마음을 이해하는 일이 살아가는 데 도움이 되도록.",
       images: [imageUrl],
     },
+    verification: googleVerification || naverVerification
+      ? {
+          google: googleVerification,
+          other: naverVerification ? { "naver-site-verification": [naverVerification] } : undefined,
+        }
+      : undefined,
   };
 }
 
@@ -46,10 +51,11 @@ export const viewport: Viewport = {
   themeColor: "#f7f4ee",
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const origin = await getSiteOrigin();
   return (
     <html lang="ko">
-      <body>{children}</body>
+      <body><StructuredData data={organizationStructuredData(origin)} />{children}</body>
     </html>
   );
 }

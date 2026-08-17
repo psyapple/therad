@@ -34,11 +34,11 @@ export function Footer() {
         </div>
         <div className="footer-column footer-note">
           <span className="footer-label">NOTE</span>
-          <p>이 사이트의 콘텐츠는 일반적인 심리교육 정보이며, 개인에 대한 진단이나 치료를 대신하지 않습니다.</p>
+          <p>GUIDE·COLUMN은 일반 심리교육 및 정보 콘텐츠이며, TOOLS는 자기이해와 자기돌봄을 위한 일반적 도구입니다. 개별 진단·치료·위기개입을 대신하지 않습니다.</p>
         </div>
       </div>
       <div className="shell footer-bottom">
-        <span>© 2026 SAEBYEOKBYEOL. ALL RIGHTS RESERVED.</span>
+        <span>© 2026 새벽별 심리상담센터</span>
         <Link href="/privacy">개인정보 및 이용 안내</Link>
         <span>BETWEEN NIGHT & DAWN <b aria-hidden="true">✦</b></span>
       </div>

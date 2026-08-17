@@ -1,26 +1,19 @@
-import type { Metadata } from "next";
 import Link from "@/components/SiteLink";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { PageHero } from "@/components/PageHero";
+import { createPageMetadata } from "@/lib/seo";
 import { toolCategories, toolItems } from "@/lib/tools";
 
-export const metadata: Metadata = {
-  title: "마음도구",
-  description: "읽고 이해한 것을 일상에서 직접 사용해볼 수 있도록 새벽별이 만든 워크시트와 마음도구를 모았습니다.",
-  openGraph: {
-    type: "website",
-    title: "TOOLS · 마음도구",
-    description: "읽고 이해한 것을 일상에서 직접 사용해보는 새벽별의 마음도구 아카이브.",
-    images: [],
-  },
-  twitter: {
-    card: "summary",
-    title: "TOOLS · 마음도구",
-    description: "읽고 이해한 것을 일상에서 직접 사용해보는 새벽별의 마음도구 아카이브.",
-    images: [],
-  },
-};
+export function generateMetadata() {
+  return createPageMetadata({
+    path: "/tools",
+    title: "마음도구",
+    description: "읽고 이해한 것을 일상에서 직접 사용해볼 수 있도록 새벽별이 만든 워크시트와 마음도구를 모았습니다.",
+    openGraphTitle: "TOOLS · 마음도구",
+    openGraphDescription: "읽고 이해한 것을 일상에서 직접 사용해보는 새벽별의 마음도구 아카이브.",
+  });
+}
 
 export default function ToolsPage() {
   return (

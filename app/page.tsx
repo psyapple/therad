@@ -4,7 +4,18 @@ import { Header } from "@/components/Header";
 import { StarMark } from "@/components/StarMark";
 import { brandPillars } from "@/lib/brand";
 import { careServices, guideArticles, guideCategories } from "@/lib/content";
+import { createPageMetadata, defaultDescription, defaultTitle } from "@/lib/seo";
 import { getFeaturedTools, toolCategories } from "@/lib/tools";
+
+export function generateMetadata() {
+  return createPageMetadata({
+    path: "/",
+    title: defaultTitle,
+    description: defaultDescription,
+    openGraphDescription: "마음을 이해하는 일이 살아가는 데 도움이 되도록.",
+    absoluteTitle: true,
+  });
+}
 
 export default function Home() {
   const featuredTools = getFeaturedTools(3);

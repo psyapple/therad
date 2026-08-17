@@ -5,9 +5,11 @@ import { CareProcess } from "@/components/CareProcess";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { PageHero } from "@/components/PageHero";
+import { StructuredData, breadcrumbStructuredData } from "@/components/StructuredData";
 import { careServices, defaultCareProcess, getCareService } from "@/lib/content";
 import { kakaoChannelUrl } from "@/lib/contact";
 import { getRelatedGuidesForService } from "@/lib/guide-all";
+import { createPageMetadata, getSiteOrigin } from "@/lib/seo";
 import { getRelatedToolsForService } from "@/lib/tools";
 
 type CareServicePageProps = { params: Promise<{ id: string }> };
@@ -19,12 +21,11 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: CareServicePageProps): Promise<Metadata> {
   const service = getCareService((await params).id);
   if (!service) return {};
-  return {
+  return createPageMetadata({
+    path: `/care/${service.id}`,
     title: service.title,
     description: service.description,
-    openGraph: { type: "website", title: service.title, description: service.description, images: [] },
-    twitter: { card: "summary", title: service.title, description: service.description, images: [] },
-  };
+  });
 }
 
 export default async function CareServicePage({ params }: CareServicePageProps) {
@@ -36,11 +37,13 @@ export default async function CareServicePage({ params }: CareServicePageProps) 
   const process = service.process ?? defaultCareProcess;
   const isAssessment = service.id === "assessment";
   const sessionNotes = [...new Set(service.sessionInformation.flatMap((option) => option.notes ?? []))];
+  const origin = await getSiteOrigin();
 
   return (
     <>
       <Header />
       <main className={`care-service-page care-service-${service.id}`}>
+        <StructuredData data={breadcrumbStructuredData(origin, [{ name: "HOME", path: "/" }, { name: "CARE", path: "/care" }, { name: service.title, path: `/care/${service.id}` }])} />
         <nav className="care-breadcrumb" aria-label="현재 위치">
           <div className="shell">
             <Link href="/">HOME</Link><span aria-hidden="true">/</span>

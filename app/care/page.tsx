@@ -1,14 +1,13 @@
-import type { Metadata } from "next";
 import Link from "@/components/SiteLink";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { PageHero } from "@/components/PageHero";
 import { careServices } from "@/lib/content";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "CARE · 심리상담",
-  description: "개인 심리상담, 커플·부부상담, 놀이치료·양육코칭, 심리평가, 트라우마·애착 상담을 안내합니다.",
-};
+export function generateMetadata() {
+  return createPageMetadata({ path: "/care", title: "CARE · 심리상담", description: "개인 심리상담, 커플·부부상담, 놀이치료·양육코칭, 심리평가, 트라우마·애착 상담을 안내합니다." });
+}
 
 export default function CarePage() {
   return (

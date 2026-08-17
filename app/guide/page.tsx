@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { Footer } from "@/components/Footer";
 import { GuideExplorer } from "@/components/GuideExplorer";
 import { Header } from "@/components/Header";
@@ -6,11 +5,11 @@ import { PageHero } from "@/components/PageHero";
 import Link from "@/components/SiteLink";
 import { columnArticles } from "@/lib/columns";
 import { guideArticles, guideCategories } from "@/lib/guide-all";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "GUIDE · 심리상담 가이드",
-  description: "상담을 시작하고 잘 이용하는 법, 마음과 애착, AEDP·SP 같은 심리치료, 심리검사에 관한 새벽별의 가이드입니다.",
-};
+export function generateMetadata() {
+  return createPageMetadata({ path: "/guide", title: "GUIDE · 심리상담 가이드", description: "상담을 시작하고 잘 이용하는 법, 마음과 애착, AEDP·SP 같은 심리치료, 심리검사에 관한 새벽별의 가이드입니다." });
+}
 
 type GuidePageProps = { searchParams: Promise<{ category?: string }> };
 

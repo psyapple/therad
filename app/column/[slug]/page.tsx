@@ -5,8 +5,10 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { MarkdownBlocks } from "@/components/MarkdownBlocks";
 import { StarMark } from "@/components/StarMark";
+import { StructuredData, articleStructuredData, breadcrumbStructuredData } from "@/components/StructuredData";
 import { columnArticles, getColumnArticle } from "@/lib/columns";
 import { formatGuideDate, getCareService, getGuideArticle } from "@/lib/content";
+import { createPageMetadata, getSiteOrigin } from "@/lib/seo";
 import { getToolItem } from "@/lib/tools";
 
 type ColumnPageProps = { params: Promise<{ slug: string }> };
@@ -18,12 +20,14 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: ColumnPageProps): Promise<Metadata> {
   const article = getColumnArticle((await params).slug);
   if (!article) return {};
-  return {
+  return createPageMetadata({
+    path: `/column/${article.slug}`,
     title: article.title,
     description: article.description,
-    openGraph: { type: "article", title: article.title, description: article.description, publishedTime: article.publishedAt, modifiedTime: article.updatedAt, images: [] },
-    twitter: { card: "summary", title: article.title, description: article.description, images: [] },
-  };
+    kind: "article",
+    publishedAt: article.publishedAt,
+    updatedAt: article.updatedAt,
+  });
 }
 
 export default async function ColumnDetailPage({ params }: ColumnPageProps) {
@@ -32,11 +36,14 @@ export default async function ColumnDetailPage({ params }: ColumnPageProps) {
   const relatedGuides = article.relatedGuides.map(getGuideArticle).filter((item) => item !== undefined);
   const relatedTools = article.relatedTools.map(getToolItem).filter((item) => item !== undefined);
   const relatedServices = article.relatedServices.map(getCareService).filter((item) => item !== undefined);
+  const origin = await getSiteOrigin();
 
   return (
     <>
       <Header />
       <main>
+        <StructuredData data={articleStructuredData({ origin, path: `/column/${article.slug}`, title: article.title, description: article.description, publishedAt: article.publishedAt, updatedAt: article.updatedAt, author: article.author })} />
+        <StructuredData data={breadcrumbStructuredData(origin, [{ name: "HOME", path: "/" }, { name: "COLUMN", path: "/column" }, { name: article.title, path: `/column/${article.slug}` }])} />
         <article className="column-detail">
           <header className="article-hero column-hero">
             <div className="shell article-hero-grid">
@@ -46,7 +53,7 @@ export default async function ColumnDetailPage({ params }: ColumnPageProps) {
           </header>
           <div className="shell article-layout column-layout">
             <aside className="article-aside"><div><span>글쓴이</span><strong>{article.author}</strong></div><div><span>발행</span><strong>{formatGuideDate(article.publishedAt)}</strong></div><div><span>업데이트</span><strong>{formatGuideDate(article.updatedAt)}</strong></div><div><span>주제</span><strong>{article.topics.slice(0, 3).join(" · ")}</strong></div></aside>
-            <div className="article-body column-body"><MarkdownBlocks blocks={article.blocks} /></div>
+            <div className="article-body column-body"><MarkdownBlocks blocks={article.blocks} /><div className="article-disclaimer">이 COLUMN은 일반적인 심리교육 및 정보 콘텐츠이며, 개인에 대한 진단·치료·위기개입을 대신하지 않습니다.</div></div>
           </div>
         </article>
         {relatedGuides.length > 0 && <section className="section related-section"><div className="shell"><div className="section-head"><div><span className="section-kicker">RELATED GUIDE</span><h2>조금 더 알아보고 싶다면</h2></div></div><div className="related-grid">{relatedGuides.map((guide) => <Link href={`/guide/${guide.slug}`} key={guide.slug}><span>{guide.category} · {guide.readTime}</span><h3>{guide.title}</h3><b>→</b></Link>)}</div></div></section>}
