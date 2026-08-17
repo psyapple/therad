@@ -17,9 +17,9 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     description: defaultDescription,
     icons: {
-      icon: [{ url: "/brand-symbol.png", type: "image/png" }],
-      shortcut: [{ url: "/brand-symbol.png", type: "image/png" }],
-      apple: [{ url: "/brand-symbol.png", type: "image/png" }],
+      icon: "/brand-symbol.png",
+      shortcut: "/brand-symbol.png",
+      apple: "/brand-symbol.png",
     },
     keywords: ["새벽별", "심리상담", "심리상담 가이드", "마음도구", "심리 워크시트", "AEDP", "SP", "애착", "트라우마", "Insight Relay"],
     openGraph: {
@@ -59,3 +59,4 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
     </html>
   );
 }
+

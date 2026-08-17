@@ -98,6 +98,7 @@ test("uses the default OG asset and brand symbol favicon", async () => {
   const html = await response.text();
   assert.ok(html.includes(`property="og:image" content="${testOrigin}/og.png"`));
   assert.ok(html.includes('href="/brand-symbol.png"'));
+  assert.doesNotMatch(html, /\[object Object\]/);
   assert.ok(html.includes('"@type":"Organization"'));
   assert.ok((await stat(join(projectRoot, "public", "og.png"))).size > 0);
   assert.ok((await stat(join(projectRoot, "public", "brand-symbol.png"))).size > 0);
@@ -130,3 +131,4 @@ test("keeps public domain and verification settings configurable", async () => {
   assert.match(sources[1], /GOOGLE_SITE_VERIFICATION/);
   assert.match(sources[1], /NAVER_SITE_VERIFICATION/);
 });
+
