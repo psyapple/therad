@@ -136,10 +136,13 @@ test("publishes the official practitioner profile and expanded work areas", asyn
   const response = await render("/about");
   assert.equal(response.status, 200);
   const html = await response.text();
-  for (const text of ["당신만의 고유성이 빛나도록", "이해 — 안정 — 회복 — 연결 — 일상으로의 번역과 확장", "새벽별심리상담센터 대표", "상담심리사 2급", "TRAINING &amp; APPROACH", "숙명여자대학교 아동심리치료 박사수료", "BEYOND THE COUNSELING ROOM", "교육청 프로그램", "웰니스 협업"]) {
+  for (const text of ["당신만의 고유성이 빛나도록", "이해 — 안정 — 회복 — 연결 — 일상으로의 번역과 확장", "안전, 안정, 신뢰형성을 우선합니다", "새벽별심리상담센터 대표", "상담심리사 2급", "TRAINING &amp; APPROACH", "숙명여자대학교 아동심리치료 박사수료", "BEYOND THE COUNSELING ROOM", "교육청 프로그램", "웰니스 협업"]) {
     assert.match(html, new RegExp(text));
   }
-  assert.match(html, /https:\/\/blog\.naver\.com\/dawnstar_mindtherapy/);
+  assert.match(html, /\/profile\/saebyeokbyeol-profile\.jpg/);
+  assert.match(html, /alt="새벽별 심리상담센터 대표 프로필 일러스트"/);
+  assert.match(html, /href="https:\/\/m\.blog\.naver\.com\/dawnstar_mindtherapy\/222700231173" target="_blank" rel="noreferrer noopener">세부 프로필 보기/);
+  assert.doesNotMatch(html, /portrait-moon|세부 경력과 활동 기록 보기|안전이 먼저입니다/);
   assert.doesNotMatch(html, /세부 학력·수련·경력은 문의 과정에서 확인/);
 });
 

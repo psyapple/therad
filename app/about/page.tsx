@@ -1,4 +1,5 @@
 import Link from "@/components/SiteLink";
+import Image from "next/image";
 import { BrandLogo } from "@/components/BrandLogo";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
@@ -11,7 +12,7 @@ export function generateMetadata() {
 }
 
 const values = [
-  { number: "01", title: "안전이 먼저입니다", copy: "빠른 해답보다 충분히 말할 수 있는 관계, 감당할 수 있는 속도, 분명한 경계를 중요하게 생각합니다." },
+  { number: "01", title: "안전, 안정, 신뢰형성을 우선합니다", copy: "빠른 해답보다 충분히 말할 수 있는 관계, 감당할 수 있는 속도, 분명한 경계를 중요하게 생각합니다." },
   { number: "02", title: "맥락을 함께 봅니다", copy: "증상만 떼어 보지 않고 감정, 관계, 몸의 반응과 그 사람이 살아온 환경을 함께 이해합니다." },
   { number: "03", title: "삶으로 번역합니다", copy: "전문적인 심리학이 상담실 안의 설명으로 끝나지 않고 일상의 선택과 돌봄으로 이어지게 합니다." },
 ];
@@ -88,9 +89,14 @@ export default function AboutPage() {
 
         <section className="section practitioner-section">
           <div className="shell practitioner-grid">
-            <div className="practitioner-visual" aria-hidden="true">
-              <span className="portrait-moon" /><span className="portrait-star">✦</span><span className="portrait-line" />
-              <small>THE PRACTICE OF<br />BEING WITH</small>
+            <div className="practitioner-visual">
+              <Image
+                src="/profile/saebyeokbyeol-profile.jpg"
+                alt="새벽별 심리상담센터 대표 프로필 일러스트"
+                width={781}
+                height={1024}
+                sizes="(max-width: 850px) calc(100vw - 40px), 40vw"
+              />
             </div>
             <div className="practitioner-copy">
               <span className="section-kicker">THE PRACTITIONER</span>
@@ -106,7 +112,7 @@ export default function AboutPage() {
                 <span className="section-kicker">EDUCATION</span>
                 <ul>{education.map((item) => <li key={item}>{item}</li>)}</ul>
               </div>
-              <a className="practitioner-source arrow-link" href={careerBlogUrl} target="_blank" rel="noreferrer noopener">세부 경력과 활동 기록 보기 <span>↗</span></a>
+              <a className="practitioner-source arrow-link" href={careerBlogUrl} target="_blank" rel="noreferrer noopener">세부 프로필 보기 <span>↗</span></a>
             </div>
           </div>
         </section>
