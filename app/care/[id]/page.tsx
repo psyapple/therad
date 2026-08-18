@@ -25,6 +25,7 @@ export async function generateMetadata({ params }: CareServicePageProps): Promis
     path: `/care/${service.id}`,
     title: service.title,
     description: service.description,
+    socialImage: "none",
   });
 }
 

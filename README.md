@@ -2,7 +2,7 @@
 
 새벽별 심리상담센터의 CARE·GUIDE·TOOLS와 개발 중인 Insight Relay를 한곳에 모은 공개 웹사이트입니다.
 
-- 공개 사이트: <https://saebyeokbyeol-guide.gudrud61.chatgpt.site>
+- 공개 사이트: Sites의 현재 production deployment URL을 사용합니다.
 - 실제 웹사이트 전환 자료: [`docs/launch-materials.md`](docs/launch-materials.md)
 - 정보 입력서: [`docs/site-information-form.md`](docs/site-information-form.md)
 - 콘텐츠 운영 흐름: [`docs/content-update-workflow.md`](docs/content-update-workflow.md)

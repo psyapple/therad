@@ -33,6 +33,8 @@ test("builds a complete dynamic sitemap from current content", async () => {
   assert.match(response.headers.get("content-type") ?? "", /application\/xml/);
   const xml = await response.text();
   const locations = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
+  assert.equal(generatedContent.guides.length, 18);
+  assert.equal(generatedContent.tools.length, 10);
   const staticPaths = ["/", "/about", "/care", "/guide", "/tools", "/column", "/contact", "/privacy", "/insight-relay"];
   const expected = [
     ...staticPaths,
@@ -56,7 +58,8 @@ test("publishes crawlable robots with the dynamic sitemap origin", async () => {
   assert.match(robots, /User-Agent: \*/i);
   assert.match(robots, /Allow: \//i);
   assert.match(robots, new RegExp(`Sitemap: ${testOrigin.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}/sitemap\\.xml`));
-  for (const path of ["/.openai/", "/content/", "/docs/", "/scripts/", "/lib/", "/dist/"]) assert.ok(robots.includes(`Disallow: ${path}`), path);
+  assert.doesNotMatch(robots, /Disallow:/i);
+  assert.doesNotMatch(robots, /content|docs|scripts|lib|dist/i);
 });
 
 test("emits canonical, social, Article, and breadcrumb metadata", async () => {
@@ -66,9 +69,12 @@ test("emits canonical, social, Article, and breadcrumb metadata", async () => {
   const guideHtml = await guideResponse.text();
   assert.ok(guideHtml.includes(`rel="canonical" href="${testOrigin}/guide/${guide.slug}"`));
   assert.ok(guideHtml.includes('property="og:type" content="article"'));
+  assert.ok(guideHtml.includes(`property="og:title" content="${guide.title}"`));
+  assert.ok(guideHtml.includes(`name="twitter:title" content="${guide.title}"`));
+  assert.ok(guideHtml.includes(guide.description));
   assert.ok(guideHtml.includes(`property="article:published_time" content="${guide.publishedAt}`));
   assert.ok(guideHtml.includes(`property="article:modified_time" content="${guide.updatedAt}`));
-  assert.ok(guideHtml.includes(`${testOrigin}/og.png`));
+  assert.ok(!guideHtml.includes(`${testOrigin}/og.png`));
   assert.ok(guideHtml.includes('"@type":"Article"'));
   assert.ok(guideHtml.includes('"@type":"BreadcrumbList"'));
 
@@ -78,8 +84,18 @@ test("emits canonical, social, Article, and breadcrumb metadata", async () => {
   const toolHtml = await toolResponse.text();
   assert.ok(toolHtml.includes(`rel="canonical" href="${testOrigin}/tools/${tool.slug}"`));
   assert.ok(toolHtml.includes('property="og:type" content="website"'));
+  assert.ok(toolHtml.includes(`property="og:title" content="${tool.title}"`));
+  assert.ok(toolHtml.includes(`name="twitter:title" content="${tool.title}"`));
+  assert.ok(toolHtml.includes(tool.description));
   assert.ok(toolHtml.includes('"@type":"BreadcrumbList"'));
   assert.doesNotMatch(toolHtml, /"@type":"Article"/);
+  assert.ok(!toolHtml.includes(`${testOrigin}/og.png`));
+
+  const careResponse = await render("/care/individual");
+  assert.equal(careResponse.status, 200);
+  const careHtml = await careResponse.text();
+  assert.ok(careHtml.includes(`rel="canonical" href="${testOrigin}/care/individual"`));
+  assert.ok(!careHtml.includes(`${testOrigin}/og.png`));
 });
 
 test("emits canonical URLs for every public index route", async () => {
@@ -130,4 +146,10 @@ test("keeps public domain and verification settings configurable", async () => {
   assert.match(sources[0], /SITE_URL/);
   assert.match(sources[1], /GOOGLE_SITE_VERIFICATION/);
   assert.match(sources[1], /NAVER_SITE_VERIFICATION/);
+});
+
+test("keeps COLUMN author metadata wired for future file-based articles", async () => {
+  const source = await readFile(join(projectRoot, "app", "column", "[slug]", "page.tsx"), "utf8");
+  assert.match(source, /authors: \[article\.author\]/);
+  assert.match(source, /articleStructuredData\([\s\S]*author: article\.author/);
 });

@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { columnArticles } from "@/lib/columns";
-import { careServices, guideArticles } from "@/lib/content";
+import { careServices } from "@/lib/content";
+import { guideArticles } from "@/lib/guide-all";
 import { absoluteSiteUrl, getSiteOrigin } from "@/lib/seo";
 import { toolItems } from "@/lib/tools";
 

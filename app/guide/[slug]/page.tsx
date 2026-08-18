@@ -28,6 +28,7 @@ export async function generateMetadata({ params }: GuidePageProps): Promise<Meta
     kind: "article",
     publishedAt: article.publishedAt,
     updatedAt: article.updatedAt,
+    socialImage: "none",
   });
 }
 

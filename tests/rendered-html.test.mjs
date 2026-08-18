@@ -210,10 +210,11 @@ test("renders source-derived GUIDE and bidirectional TOOL relations", async () =
   assert.match(toolHtml, /전문적인 도움이 필요하다면/);
 });
 
-test("returns 404 for unknown GUIDE, TOOL, and CARE records", async () => {
+test("returns 404 for unknown GUIDE, TOOL, COLUMN, and CARE records", async () => {
   for (const pathname of [
     "/guide/not-a-real-guide",
     "/tools/not-a-real-tool",
+    "/column/not-a-real-column",
     "/care/not-a-real-service",
   ]) {
     const response = await render(pathname);

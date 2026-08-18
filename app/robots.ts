@@ -7,7 +7,6 @@ export default async function robots(): Promise<MetadataRoute.Robots> {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/.openai/", "/content/", "/docs/", "/scripts/", "/lib/", "/dist/"],
     },
     sitemap: absoluteSiteUrl(origin, "/sitemap.xml"),
   };

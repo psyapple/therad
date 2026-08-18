@@ -44,9 +44,11 @@ type PageMetadataOptions = {
   kind?: "website" | "article";
   publishedAt?: string;
   updatedAt?: string;
+  authors?: string[];
   openGraphTitle?: string;
   openGraphDescription?: string;
   absoluteTitle?: boolean;
+  socialImage?: "default" | "none";
 };
 
 export async function createPageMetadata({
@@ -56,14 +58,18 @@ export async function createPageMetadata({
   kind = "website",
   publishedAt,
   updatedAt,
+  authors,
   openGraphTitle = title,
   openGraphDescription = description,
   absoluteTitle = false,
+  socialImage = "default",
 }: PageMetadataOptions): Promise<Metadata> {
   const origin = await getSiteOrigin();
   const canonical = absoluteSiteUrl(origin, path);
   const imageUrl = absoluteSiteUrl(origin, "/og.png");
-  const images = [{ url: imageUrl, width: 1734, height: 907, alt: "새벽별 — 마음을 이해하는 일이 살아가는 데 도움이 되도록." }];
+  const images = socialImage === "default"
+    ? [{ url: imageUrl, width: 1734, height: 907, alt: "새벽별 — 마음을 이해하는 일이 살아가는 데 도움이 되도록." }]
+    : [];
 
   const openGraph: NonNullable<Metadata["openGraph"]> = kind === "article"
     ? {
@@ -75,6 +81,7 @@ export async function createPageMetadata({
         description: openGraphDescription,
         publishedTime: publishedAt,
         modifiedTime: updatedAt,
+        authors,
         images,
       }
     : {
@@ -97,7 +104,7 @@ export async function createPageMetadata({
       card: "summary_large_image",
       title: openGraphTitle,
       description: openGraphDescription,
-      images: [imageUrl],
+      images: socialImage === "default" ? [imageUrl] : [],
     },
   };
 }

@@ -24,6 +24,7 @@ export async function generateMetadata({ params }: ToolPageProps): Promise<Metad
     path: `/tools/${item.slug}`,
     title: item.title,
     description: item.description,
+    socialImage: "none",
   });
 }
 

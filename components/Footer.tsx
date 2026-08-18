@@ -34,7 +34,7 @@ export function Footer() {
         </div>
         <div className="footer-column footer-note">
           <span className="footer-label">NOTE</span>
-          <p>GUIDE·COLUMN은 일반 심리교육 및 정보 콘텐츠이며, TOOLS는 자기이해와 자기돌봄을 위한 일반적 도구입니다. 개별 진단·치료·위기개입을 대신하지 않습니다.</p>
+          <p>심리 콘텐츠의 성격과 이용 기준은 <Link href="/privacy">개인정보 및 이용 안내</Link>에서 확인할 수 있습니다.</p>
         </div>
       </div>
       <div className="shell footer-bottom">

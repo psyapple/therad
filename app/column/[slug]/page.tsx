@@ -27,6 +27,8 @@ export async function generateMetadata({ params }: ColumnPageProps): Promise<Met
     kind: "article",
     publishedAt: article.publishedAt,
     updatedAt: article.updatedAt,
+    authors: [article.author],
+    socialImage: "none",
   });
 }
 
