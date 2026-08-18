@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { KakaoFloatingContact } from "@/components/KakaoFloatingContact";
 import { StructuredData, organizationStructuredData } from "@/components/StructuredData";
 import { absoluteSiteUrl, defaultDescription, defaultTitle, getSiteOrigin } from "@/lib/seo";
 import "./globals.css";
@@ -55,7 +56,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
   const origin = await getSiteOrigin();
   return (
     <html lang="ko">
-      <body><StructuredData data={organizationStructuredData(origin)} />{children}</body>
+      <body><StructuredData data={organizationStructuredData(origin)} />{children}<KakaoFloatingContact /></body>
     </html>
   );
 }
