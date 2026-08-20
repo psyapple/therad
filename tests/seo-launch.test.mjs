@@ -6,14 +6,15 @@ import { fileURLToPath } from "node:url";
 import generatedContent from "../lib/generated-content.json" with { type: "json" };
 
 const projectRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
-const testOrigin = "https://seo.example";
+const requestOrigin = "https://seo.example";
+const officialOrigin = "https://saebyeokstar.com";
 
 async function render(pathname) {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
   workerUrl.searchParams.set("seo-test", `${process.pid}-${Date.now()}-${pathname}`);
   const { default: worker } = await import(workerUrl.href);
   return worker.fetch(
-    new Request(`${testOrigin}${pathname}`, {
+    new Request(`${requestOrigin}${pathname}`, {
       headers: {
         accept: "text/html",
         host: "seo.example",
@@ -42,7 +43,7 @@ test("builds a complete dynamic sitemap from current content", async () => {
     ...generatedContent.guides.map((article) => `/guide/${article.slug}`),
     ...generatedContent.tools.map((item) => `/tools/${item.slug}`),
     ...generatedContent.columns.map((article) => `/column/${article.slug}`),
-  ].map((path) => `${testOrigin}${path}`);
+  ].map((path) => `${officialOrigin}${path}`);
 
   assert.equal(locations.length, expected.length);
   assert.equal(new Set(locations).size, expected.length);
@@ -57,7 +58,7 @@ test("publishes crawlable robots with the dynamic sitemap origin", async () => {
   const robots = await response.text();
   assert.match(robots, /User-Agent: \*/i);
   assert.match(robots, /Allow: \//i);
-  assert.match(robots, new RegExp(`Sitemap: ${testOrigin.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}/sitemap\\.xml`));
+  assert.match(robots, new RegExp(`Sitemap: ${officialOrigin.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}/sitemap\\.xml`));
   assert.doesNotMatch(robots, /Disallow:/i);
   assert.doesNotMatch(robots, /content|docs|scripts|lib|dist/i);
 });
@@ -67,14 +68,14 @@ test("emits canonical, social, Article, and breadcrumb metadata", async () => {
   const guideResponse = await render(`/guide/${guide.slug}`);
   assert.equal(guideResponse.status, 200);
   const guideHtml = await guideResponse.text();
-  assert.ok(guideHtml.includes(`rel="canonical" href="${testOrigin}/guide/${guide.slug}"`));
+  assert.ok(guideHtml.includes(`rel="canonical" href="${officialOrigin}/guide/${guide.slug}"`));
   assert.ok(guideHtml.includes('property="og:type" content="article"'));
   assert.ok(guideHtml.includes(`property="og:title" content="${guide.title}"`));
   assert.ok(guideHtml.includes(`name="twitter:title" content="${guide.title}"`));
   assert.ok(guideHtml.includes(guide.description));
   assert.ok(guideHtml.includes(`property="article:published_time" content="${guide.publishedAt}`));
   assert.ok(guideHtml.includes(`property="article:modified_time" content="${guide.updatedAt}`));
-  assert.ok(!guideHtml.includes(`${testOrigin}/og.png`));
+  assert.ok(!guideHtml.includes(`${officialOrigin}/og.png`));
   assert.ok(guideHtml.includes('"@type":"Article"'));
   assert.ok(guideHtml.includes('"@type":"BreadcrumbList"'));
 
@@ -82,20 +83,20 @@ test("emits canonical, social, Article, and breadcrumb metadata", async () => {
   const toolResponse = await render(`/tools/${tool.slug}`);
   assert.equal(toolResponse.status, 200);
   const toolHtml = await toolResponse.text();
-  assert.ok(toolHtml.includes(`rel="canonical" href="${testOrigin}/tools/${tool.slug}"`));
+  assert.ok(toolHtml.includes(`rel="canonical" href="${officialOrigin}/tools/${tool.slug}"`));
   assert.ok(toolHtml.includes('property="og:type" content="website"'));
   assert.ok(toolHtml.includes(`property="og:title" content="${tool.title}"`));
   assert.ok(toolHtml.includes(`name="twitter:title" content="${tool.title}"`));
   assert.ok(toolHtml.includes(tool.description));
   assert.ok(toolHtml.includes('"@type":"BreadcrumbList"'));
   assert.doesNotMatch(toolHtml, /"@type":"Article"/);
-  assert.ok(!toolHtml.includes(`${testOrigin}/og.png`));
+  assert.ok(!toolHtml.includes(`${officialOrigin}/og.png`));
 
   const careResponse = await render("/care/individual");
   assert.equal(careResponse.status, 200);
   const careHtml = await careResponse.text();
-  assert.ok(careHtml.includes(`rel="canonical" href="${testOrigin}/care/individual"`));
-  assert.ok(!careHtml.includes(`${testOrigin}/og.png`));
+  assert.ok(careHtml.includes(`rel="canonical" href="${officialOrigin}/care/individual"`));
+  assert.ok(!careHtml.includes(`${officialOrigin}/og.png`));
 });
 
 test("emits canonical URLs for every public index route", async () => {
@@ -103,7 +104,7 @@ test("emits canonical URLs for every public index route", async () => {
     const response = await render(path);
     assert.equal(response.status, 200, path);
     const html = await response.text();
-    const canonical = path === "/" ? testOrigin : `${testOrigin}${path}`;
+    const canonical = path === "/" ? officialOrigin : `${officialOrigin}${path}`;
     assert.ok(html.includes(`rel="canonical" href="${canonical}"`), path);
   }
 });
@@ -112,7 +113,7 @@ test("uses the default OG asset and brand symbol favicon", async () => {
   const response = await render("/");
   assert.equal(response.status, 200);
   const html = await response.text();
-  assert.ok(html.includes(`property="og:image" content="${testOrigin}/og.png"`));
+  assert.ok(html.includes(`property="og:image" content="${officialOrigin}/og.png"`));
   assert.ok(html.includes('href="/brand-symbol.png"'));
   assert.doesNotMatch(html, /\[object Object\]/);
   assert.ok(html.includes('"@type":"Organization"'));
@@ -136,7 +137,7 @@ test("renders current privacy guidance and the custom 404", async () => {
   assert.match(missingHtml, /GUIDE 보기/);
 });
 
-test("keeps public domain and verification settings configurable", async () => {
+test("pins public SEO to the official apex domain and keeps verification configurable", async () => {
   const sources = await Promise.all([
     readFile(join(projectRoot, "lib", "seo.ts"), "utf8"),
     readFile(join(projectRoot, "app", "layout.tsx"), "utf8"),
@@ -144,6 +145,8 @@ test("keeps public domain and verification settings configurable", async () => {
   ]);
   assert.doesNotMatch(sources.join("\n"), /chatgpt\.site/);
   assert.match(sources[0], /SITE_URL/);
+  assert.match(sources[0], /https:\/\/saebyeokstar\.com/);
+  assert.match(sources[2], /SITE_URL=https:\/\/saebyeokstar\.com/);
   assert.match(sources[1], /GOOGLE_SITE_VERIFICATION/);
   assert.match(sources[1], /NAVER_SITE_VERIFICATION/);
 });

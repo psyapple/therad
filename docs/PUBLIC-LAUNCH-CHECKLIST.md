@@ -1,93 +1,85 @@
 # 새벽별 공식 웹사이트 공개 체크리스트
 
-독립 도메인을 연결하거나 검색엔진 등록을 시작할 때 아래 항목을 순서대로 확인합니다. 현재 사이트는 환경변수 값이 없으면 방문자가 접속한 주소를 기준으로 canonical, sitemap과 robots 주소를 만듭니다.
+## 확정된 공식 주소
 
-## 1. 독립 도메인 연결
+- Primary Domain: `https://saebyeokstar.com`
+- canonical, Open Graph URL, sitemap, robots와 구조화 데이터는 모두 위 apex `.com`을 기준으로 생성합니다.
+- Sites 배포 주소는 배포·장애 확인을 위한 기술적 주소로만 유지하며 공식 URL로 안내하지 않습니다.
+- 운영 환경의 `SITE_URL`은 `https://saebyeokstar.com`으로 설정합니다. 환경변수가 없더라도 production fallback은 같은 주소입니다.
+- 로컬 개발 요청은 `localhost` 또는 `127.0.0.1` origin을 그대로 사용합니다.
 
-- [ ] 사용할 독립 도메인을 확보하고 소유권·갱신 정보를 확인합니다.
-- [ ] `www` 사용 여부를 결정하고, 선택하지 않은 주소는 대표 주소로 이동하도록 설정합니다.
-- [ ] Sites의 도메인 설정에서 독립 도메인을 추가합니다.
-- [ ] 도메인 업체의 DNS 화면에 Sites가 안내하는 값을 그대로 입력합니다.
-- [ ] `https://독립도메인`으로 HOME과 상세페이지가 열리는지 확인합니다.
-- [ ] 브라우저에 HTTPS 자물쇠가 표시되고 인증서 오류가 없는지 확인합니다.
-- [ ] 기존 `chatgpt.site` 주소를 바로 없애기보다 독립 도메인의 연결과 인증서 상태를 먼저 확인합니다.
+## 도메인 운영 TODO
 
-## 2. SITE_URL 환경변수 설정
+- [x] `saebyeokstar.com`을 Sites Custom Domain에 연결하고 HTTPS를 확인합니다.
+- [ ] `www.saebyeokstar.com`을 연결한 뒤 `https://saebyeokstar.com`으로 301 redirect합니다.
+- [ ] `saebyeokstar.kr`을 방어용으로 유지하고 `https://saebyeokstar.com`으로 301 redirect합니다.
+- [ ] 위 보조 도메인은 canonical이나 sitemap URL로 사용하지 않습니다.
 
-- [ ] 사이트의 환경변수 설정에서 `SITE_URL`을 추가합니다.
-- [ ] 값은 `https://독립도메인`처럼 origin만 입력합니다. 뒤에 `/guide` 같은 경로를 붙이지 않습니다.
-- [ ] 저장 후 사이트를 다시 배포합니다.
-- [ ] 페이지 소스의 `canonical`, `/sitemap.xml`, `/robots.txt`가 독립 도메인을 가리키는지 확인합니다.
-- [ ] 대표 주소와 다른 `www` 또는 non-www 주소에서 canonical이 대표 주소로 생성되는지 확인합니다.
+이번 코드 작업에서는 `www`와 `.kr`의 DNS 또는 redirect 설정을 변경하지 않습니다.
 
-`NEXT_PUBLIC_SITE_URL`도 지원하지만 운영 주소에는 서버 환경변수인 `SITE_URL` 사용을 권장합니다. 둘 다 없으면 현재 접속 host가 자동으로 사용됩니다.
+## 배포 후 SEO 확인
 
-## 3. Google Search Console 등록
+- [ ] `https://saebyeokstar.com`과 주요 상세페이지가 HTTPS로 열리는지 확인합니다.
+- [ ] HOME, ABOUT, CARE, GUIDE, TOOLS, COLUMN, CONTACT, PRIVACY, INSIGHT RELAY의 canonical이 apex `.com`을 가리키는지 확인합니다.
+- [ ] GUIDE, TOOLS, CARE 상세페이지의 canonical도 해당 `.com` 경로를 가리키는지 확인합니다.
+- [ ] GUIDE와 COLUMN은 글별 title, description, 발행일, 수정일과 Article Open Graph가 출력되는지 확인합니다.
+- [ ] TOOLS는 Article이 아닌 website Open Graph로 출력되는지 확인합니다.
+- [ ] Organization, Article, BreadcrumbList 구조화 데이터의 URL이 `.com`인지 확인합니다.
+- [ ] `https://saebyeokstar.com/og.png`가 HTTP 200으로 열리는지 확인합니다.
+- [ ] favicon으로 기존 brand symbol이 표시되는지 확인합니다.
+- [ ] 존재하지 않는 GUIDE, TOOL, COLUMN, CARE와 일반 URL이 404를 반환하는지 확인합니다.
 
-- [ ] Google Search Console에서 독립 도메인 속성 또는 URL 접두어 속성을 추가합니다.
-- [ ] DNS 확인을 선택했다면 Google이 제공한 TXT 값을 도메인 DNS에 입력합니다.
-- [ ] HTML meta 확인을 사용한다면 Google이 제공한 `content` 값만 `GOOGLE_SITE_VERIFICATION` 환경변수에 입력합니다. `<meta>` 태그 전체를 넣지 않습니다.
-- [ ] 사이트를 다시 배포한 뒤 Search Console에서 소유권 확인을 누릅니다.
-- [ ] 확인 token을 임의로 만들지 않습니다.
+## Sitemap과 robots
 
-## 4. Google sitemap 제출
+- [ ] `https://saebyeokstar.com/sitemap.xml`이 열리는지 확인합니다.
+- [ ] HOME과 공개 index, CARE 상세, GUIDE 18개, TOOLS 10개, 실제 COLUMN 상세가 포함되는지 확인합니다.
+- [ ] 새 GUIDE, TOOL, COLUMN이 파일 기반 콘텐츠에 추가되면 sitemap에도 자동으로 추가되는지 확인합니다.
+- [ ] `_TEMPLATE.mdx`와 프로젝트 내부 경로가 sitemap에 포함되지 않는지 확인합니다.
+- [ ] `https://saebyeokstar.com/robots.txt`가 공개 콘텐츠 crawl을 허용하는지 확인합니다.
+- [ ] robots의 Sitemap 값이 `https://saebyeokstar.com/sitemap.xml`인지 확인합니다.
 
-- [ ] Search Console의 `Sitemaps` 메뉴를 엽니다.
-- [ ] `sitemap.xml`을 입력해 제출합니다.
-- [ ] 제출 주소가 `https://독립도메인/sitemap.xml`인지 확인합니다.
-- [ ] GUIDE나 TOOL을 추가한 뒤 sitemap에 새 URL이 자동으로 나타나는지 확인합니다.
-- [ ] URL 검사와 페이지 색인 보고서에서 주요 페이지의 색인 상태를 확인합니다.
+## Google Search Console
 
-## 5. Naver Search Advisor 등록
+- [ ] 권장: Domain Property `saebyeokstar.com`을 등록합니다.
+- [ ] 대안: URL-prefix property `https://saebyeokstar.com`을 등록합니다.
+- [ ] Google이 제공한 DNS TXT 또는 verification token만 사용하며 임의 값을 만들지 않습니다.
+- [ ] HTML meta 방식이면 token의 `content` 값만 Sites의 `GOOGLE_SITE_VERIFICATION`에 입력하고 재배포합니다.
+- [ ] `https://saebyeokstar.com/sitemap.xml`을 제출합니다.
+- [ ] HOME, CARE, GUIDE, GUIDE 상세, TOOLS의 색인 상태를 순서대로 확인합니다.
 
-- [ ] 네이버 서치어드바이저에서 사이트를 추가합니다.
-- [ ] HTML meta 확인을 선택한 경우 네이버가 제공한 `content` 값만 `NAVER_SITE_VERIFICATION` 환경변수에 입력합니다.
-- [ ] 사이트를 다시 배포하고 소유확인을 완료합니다.
-- [ ] `robots.txt` 진단에서 crawl 허용과 sitemap 주소가 정상인지 확인합니다.
-- [ ] 사이트 관리의 요청 메뉴에서 `sitemap.xml`을 제출합니다.
-- [ ] 요청/진단 메뉴에서 주요 페이지의 수집·색인 상태를 확인합니다.
+## Naver Search Advisor
 
-## 6. sitemap·robots·canonical 확인
+- [ ] 공식 사이트 `https://saebyeokstar.com`을 등록합니다.
+- [ ] 네이버가 제공한 verification token만 사용하며 임의 값을 만들지 않습니다.
+- [ ] HTML meta 방식이면 token의 `content` 값만 Sites의 `NAVER_SITE_VERIFICATION`에 입력하고 재배포합니다.
+- [ ] `https://saebyeokstar.com/robots.txt` 진단을 실행합니다.
+- [ ] `https://saebyeokstar.com/sitemap.xml`을 제출합니다.
+- [ ] 주요 페이지의 수집 요청과 색인 상태를 확인합니다.
 
-- [ ] `https://독립도메인/sitemap.xml`이 열리고 HOME, CARE, GUIDE, TOOLS, COLUMN, CONTACT와 실제 상세 URL을 포함하는지 확인합니다.
-- [ ] `_TEMPLATE.mdx`나 `content`, `docs`, `scripts` 같은 프로젝트 파일 경로가 sitemap 또는 robots의 공개 URL로 나타나지 않는지 확인합니다.
-- [ ] `https://독립도메인/robots.txt`가 일반 검색엔진의 crawl을 허용하고 올바른 sitemap 주소를 안내하는지 확인합니다.
-- [ ] HOME, 각 archive와 대표 상세페이지의 HTML 소스에서 canonical이 한 번만 나타나며 독립 도메인을 가리키는지 확인합니다.
+## 개인정보·문의·저작권
 
-## 7. 사이트 소유확인 공통 점검
+- [x] 웹사이트 자체에는 회원가입, 상담기록 저장, 자체 상담문의 DB와 문의 template 서버 전송이 없습니다.
+- [x] 대표 문의채널은 새벽별 카카오채널입니다.
+- [x] 네이버 블로그, Instagram과 Notion은 외부 콘텐츠·소셜 채널로 구분합니다.
+- [x] `© 2026 새벽별 심리상담센터` 표기를 유지합니다.
+- [ ] Analytics, Meta Pixel, Kakao Pixel은 별도의 privacy/cookie 검토 전에는 설치하지 않습니다.
 
-- [ ] verification token 앞뒤에 따옴표나 `<meta>` 태그가 포함되지 않았는지 확인합니다.
-- [ ] 공개 페이지 소스에 Google 또는 Naver verification meta가 한 번만 나타나는지 확인합니다.
-- [ ] 소유확인 완료 후 token 유지 여부는 각 검색 서비스의 안내를 따릅니다.
+## 독립 도메인 안정화 후 외부 채널 변경
 
-## 8. 공유 OG 확인
+다음 항목의 홈페이지 링크를 모두 `https://saebyeokstar.com`으로 통일합니다.
 
-- [ ] `https://독립도메인/og.png`가 열리는지 확인합니다.
-- [ ] HOME 링크를 카카오톡 비공개 대화 또는 공유 디버거에서 테스트합니다.
-- [ ] GUIDE와 COLUMN 링크에서 해당 글의 제목·설명이 표시되고 HOME의 정보로 잘못 대체되지 않는지 확인합니다.
-- [ ] 개별 콘텐츠 이미지를 아직 운영하지 않는 상세페이지에서는 잘못된 대표 이미지가 붙지 않는지 확인합니다.
-- [ ] 오래된 미리보기가 보이면 해당 플랫폼의 캐시 갱신 기능을 사용합니다.
+- [ ] Naver Blog 프로필 홈페이지
+- [ ] Instagram 프로필 링크
+- [ ] Kakao Channel 홈페이지
+- [ ] Google Business Profile이 있다면 홈페이지
+- [ ] 기관 소개자료
+- [ ] 명함과 QR
+- [ ] PDF 소개서
+- [ ] 이메일 서명
 
-## 9. favicon 확인
+## 최종 공개 점검
 
-- [ ] desktop 브라우저 탭에서 새벽별 brand symbol이 표시되는지 확인합니다.
-- [ ] 모바일 홈 화면 바로가기에서도 전체 로고가 아니라 brand symbol이 표시되는지 확인합니다.
-- [ ] 브라우저 캐시 때문에 이전 아이콘이 보이면 새 시크릿 창 또는 캐시 삭제 후 다시 확인합니다.
-
-## 10. 카카오 문의 테스트
-
-- [ ] HOME, CARE와 CONTACT의 문의 버튼을 각각 눌러봅니다.
-- [ ] 모두 공식 새벽별 카카오채널로 이동하는지 확인합니다.
-- [ ] 첫 문의에 주민등록번호, 진단서, 상세 의료정보나 불필요한 민감정보를 보내지 않아도 된다는 안내를 확인합니다.
-- [ ] Instagram과 네이버 블로그가 대표 문의 채널이 아닌 외부 콘텐츠 채널로 표현되는지 확인합니다.
-
-## 11. 모바일 최종 테스트
-
-- [ ] HOME, CARE, GUIDE, TOOLS, COLUMN, ABOUT, CONTACT, 개인정보 및 이용 안내를 확인합니다.
-- [ ] Header menu와 Footer link가 눌리는지 확인합니다.
-- [ ] 긴 GUIDE 제목, tag, related card에 가로 스크롤이 생기지 않는지 확인합니다.
-- [ ] 존재하지 않는 주소에서 새벽별 404 화면과 HOME/GUIDE 버튼이 보이는지 확인합니다.
-
-## 이후 별도 결정할 항목
-
-Google Analytics 등 방문 분석 도구는 이번 공개 준비에 설치하지 않았습니다. 실제 필요성, 수집 범위, 쿠키·개인정보 안내를 함께 검토한 뒤 별도 작업으로 결정합니다.
+- [ ] desktop, tablet, mobile에서 주요 페이지와 Header/Footer 링크를 확인합니다.
+- [ ] HOME, CARE와 CONTACT의 카카오 문의 링크를 확인합니다.
+- [ ] 공유 미리보기에서 HOME과 대표 GUIDE의 제목·설명을 확인합니다.
+- [ ] 공개 HTML에 Sites 기술 주소가 canonical, OG URL 또는 구조화 데이터의 공식 URL로 남지 않았는지 확인합니다.

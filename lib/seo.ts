@@ -3,6 +3,7 @@ import { headers } from "next/headers";
 
 export const siteName = "새벽별";
 export const organizationName = "새벽별 심리상담센터";
+export const officialSiteOrigin = "https://saebyeokstar.com";
 export const defaultTitle = "새벽별 | 마음을 이해하고 살아가는 방법";
 export const defaultDescription = "새벽별은 전문적인 심리상담 CARE, 마음을 이해하는 심리학 GUIDE, 일상에서 직접 사용하는 마음도구 TOOLS를 만듭니다.";
 
@@ -25,11 +26,15 @@ export async function getSiteOrigin() {
   const incoming = await headers();
   const forwardedHost = incoming.get("x-forwarded-host")?.split(",")[0]?.trim();
   const host = forwardedHost || incoming.get("host")?.trim();
-  if (!host) return "http://localhost:3000";
+  const hostname = host ? new URL(`http://${host}`).hostname.replace(/^\[|\]$/g, "").toLowerCase() : null;
+  const isLocal = hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1";
 
-  const forwardedProtocol = incoming.get("x-forwarded-proto")?.split(",")[0]?.trim();
-  const protocol = forwardedProtocol || (host.startsWith("localhost") || host.startsWith("127.0.0.1") ? "http" : "https");
-  return new URL(`${protocol}://${host}`).origin;
+  if (host && isLocal) {
+    const forwardedProtocol = incoming.get("x-forwarded-proto")?.split(",")[0]?.trim();
+    return new URL(`${forwardedProtocol || "http"}://${host}`).origin;
+  }
+
+  return officialSiteOrigin;
 }
 
 export function absoluteSiteUrl(origin: string, path: string) {
