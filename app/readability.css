@@ -1,0 +1,119 @@
+/* Preserve the editorial layout; make Korean reading text consistent across devices. */
+@import url("/fonts/pretendard/pretendardvariable-dynamic-subset.css");
+
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { overflow-wrap: anywhere; }
+button, input, textarea, select { font-family: var(--font-sans); }
+
+/* Reading copy uses the same sans face, with space between Korean characters and lines. */
+.article-body section > p,
+.column-body > p,
+.article-body li,
+.article-note p,
+.tool-detail-body p,
+.tool-detail-body li {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.9;
+  letter-spacing: -.01em;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+.article-body h2, .article-body h3, .tool-detail-body h2, .tool-detail-body h3 {
+  line-height: 1.5;
+  letter-spacing: -.025em;
+}
+.article-title h1 { letter-spacing: -.035em; }
+.article-title .back-link { display: table; }
+.article-title .guide-meta { display: block; }
+.article-title > p, .page-hero-copy > p,
+.archive-content p, .related-grid p, .tool-archive-row p,
+.section-description, .guide-principle p, .tools-guide-bridge p,
+.care-index-copy p, .care-session-name p, .care-approach-copy > p,
+.care-process-grid p, .assessment-items p, .assessment-notes p,
+.value-card p, .practitioner-copy > p, .education-note li,
+.manifesto-copy > p, .section-head > p,
+.inquiry-template > p, .inquiry-template pre, .notice-grid li {
+  font-size: 1rem;
+  line-height: 1.85;
+  letter-spacing: -.01em;
+}
+.care-service-page .care-service-overview li { font-size: 1rem; line-height: 1.85; }
+.article-disclaimer, .privacy-mini, .care-process-note,
+.care-session-detail, .care-session-notes span, .care-method-list span {
+  font-size: .875rem;
+  line-height: 1.8;
+}
+.article-disclaimer, .privacy-mini, .care-process-note { color: var(--slate); }
+.guide-meta, .article-aside span, .related-grid span,
+.tool-detail-grid dt, .tool-archive-row small, .tool-feature-row small,
+.guide-results-meta, .article-note > strong {
+  font-size: .8125rem;
+  line-height: 1.6;
+  letter-spacing: .015em;
+}
+.article-aside strong, .tool-detail-grid dd { font-size: .875rem; line-height: 1.7; }
+.article-aside > div { min-width: 0; }
+.category-tabs button, .tool-category-list span,
+.back-link, .text-link, .arrow-link, .button,
+.assessment-inquiry-link, .care-index-link { font-size: .875rem; }
+.category-tabs button { min-height: 44px; height: auto; padding-block: 10px; }
+.guide-search input { font-size: 1rem; min-width: 0; }
+.guide-search:focus-within { outline: 2px solid var(--lavender-deep); outline-offset: 4px; }
+.menu-button { min-width: 44px; min-height: 44px; }
+.kakao-floating-label { font-size: .875rem; }
+.inquiry-template pre { overflow-wrap: anywhere; }
+.contact-types button { grid-template-columns: 32px minmax(0, 1fr); }
+.contact-types strong { font-size: 1rem; line-height: 1.5; }
+.contact-types small { grid-column: 2; }
+.contact-types b { display: none; }
+
+/* Allow grid text to wrap without forcing the viewport wider. */
+.article-title, .article-body, .archive-content, .related-grid > a,
+.tool-archive-row > div, .tool-detail-body, .inquiry-template { min-width: 0; }
+
+@media (max-width: 850px) {
+  .article-title h1 { font-size: clamp(2rem, 5.5vw, 2.75rem); line-height: 1.4; }
+  .article-lead { font-size: 1.25rem; line-height: 1.85; }
+  .article-body h2, .tool-detail-body h2 { font-size: 1.5rem; }
+  .article-body h3, .tool-detail-body h3 { font-size: 1.25rem; }
+  .article-body ul { padding: 20px; }
+  .article-body ol { padding: 20px 20px 20px 40px; }
+  .article-body li { margin-block: 14px; }
+  .category-tabs { flex-wrap: wrap; overflow: visible; }
+  .category-tabs button { flex: 0 1 auto; }
+  .archive-content h2, .related-grid h3, .tool-archive-row h3 {
+    font-size: 1.25rem;
+    line-height: 1.55;
+    letter-spacing: -.025em;
+  }
+  .related-grid h3 { margin-top: 28px; }
+  .tool-archive-row { align-items: start; padding-block: 26px; }
+  .tool-archive-row > span, .tool-archive-row > b { padding-top: 4px; }
+  .tool-archive-row p { display: block; margin-bottom: 0; }
+  .tool-detail-grid dl div { grid-template-columns: 65px minmax(0, 1fr); }
+  .inquiry-template pre { padding: 18px; }
+  .contact-types button { padding-block: 18px; }
+  .contact-types button:hover, .contact-types button.active { padding-block: 18px; }
+  .footer-column a, .footer-top > p { font-size: .875rem; line-height: 1.8; }
+  .footer-note p, .footer-bottom { font-size: .75rem; line-height: 1.8; }
+  .footer-note p, .footer-bottom { color: rgba(255,255,255,.7); }
+  .footer-label { font-size: .75rem; }
+  .mobile-menu { overflow-y: auto; overscroll-behavior: contain; }
+  .mobile-nav a { min-height: 54px; padding-block: 12px; }
+}
+
+@media (max-width: 560px) {
+  .hero-copy > p, .intro-grid p, .pillar-card p, .path-heading > p,
+  .path-option p, .relay-copy p, .closing-grid p,
+  .guide-card-body > p, .tools-intro > p {
+    font-size: 1rem;
+    line-height: 1.85;
+  }
+  .page-hero-copy h1 { font-size: clamp(2rem, 9vw, 2.5rem); line-height: 1.4; }
+  .page-hero-copy h1, .section-head h2 { letter-spacing: -.035em; }
+  .spectrum-list a { grid-template-columns: 60px minmax(0, 1fr) 20px; }
+  .tool-archive-row { grid-template-columns: 24px minmax(0, 1fr) 20px; }
+  .article-aside { gap: 0 16px; }
+  .kakao-floating-contact { max-width: calc(100vw - 32px); }
+}

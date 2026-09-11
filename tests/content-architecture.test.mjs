@@ -13,11 +13,11 @@ test("migrates every GUIDE and TOOL without slug loss", async () => {
   const content = await loadContent(projectRoot);
   const guideSlugs = content.guides.map(({ slug }) => slug).sort();
   const toolSlugs = content.tools.map(({ slug }) => slug).sort();
-  assert.equal(content.guides.length, 18);
+  assert.equal(content.guides.length, 19);
   assert.equal(content.tools.length, 10);
-  assert.deepEqual(guideSlugs, baseline.guides);
+  assert.deepEqual(guideSlugs.filter((slug) => slug !== "couple-assessment-conversation"), baseline.guides);
   assert.deepEqual(toolSlugs, baseline.tools);
-  assert.equal(content.columns.length, 0);
+  assert.deepEqual(content.columns.map(({ slug }) => slug).sort(), ["before-a-psychology-label", "whose-story-is-therapy"]);
 });
 
 test("excludes templates and preserves structured article bodies", async () => {

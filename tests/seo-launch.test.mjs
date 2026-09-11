@@ -34,7 +34,7 @@ test("builds a complete dynamic sitemap from current content", async () => {
   assert.match(response.headers.get("content-type") ?? "", /application\/xml/);
   const xml = await response.text();
   const locations = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
-  assert.equal(generatedContent.guides.length, 18);
+  assert.equal(generatedContent.guides.length, 19);
   assert.equal(generatedContent.tools.length, 10);
   const staticPaths = ["/", "/about", "/care", "/guide", "/tools", "/column", "/contact", "/privacy", "/insight-relay"];
   const expected = [

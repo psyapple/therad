@@ -3,6 +3,7 @@ import { KakaoFloatingContact } from "@/components/KakaoFloatingContact";
 import { StructuredData, organizationStructuredData } from "@/components/StructuredData";
 import { absoluteSiteUrl, defaultDescription, defaultTitle, getSiteOrigin } from "@/lib/seo";
 import "./globals.css";
+import "./readability.css";
 
 export async function generateMetadata(): Promise<Metadata> {
   const origin = await getSiteOrigin();

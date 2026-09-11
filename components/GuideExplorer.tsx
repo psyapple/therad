@@ -27,6 +27,7 @@ export function GuideExplorer({ articles, initialCategory = "전체" }: { articl
               className={category === item ? "active" : ""}
               type="button"
               key={item}
+              aria-pressed={category === item}
               onClick={() => setCategory(item)}
             >
               {item}

@@ -89,13 +89,18 @@ test("preserves every migrated GUIDE and TOOL route", async () => {
   }
 });
 
-test("supports an empty COLUMN archive without exposing an empty GUIDE section", async () => {
+test("exposes source-derived COLUMN entries through the existing GUIDE section", async () => {
   const columnResponse = await render("/column");
   assert.equal(columnResponse.status, 200);
   assert.match(await columnResponse.text(), /상담과 마음에 대해/);
   const guideResponse = await render("/guide");
   assert.equal(guideResponse.status, 200);
-  assert.doesNotMatch(await guideResponse.text(), /FROM SAEBYEOKBYEOL|COLUMN 전체 보기/);
+  assert.match(await guideResponse.text(), /FROM SAEBYEOKBYEOL/);
+  for (const article of generatedContent.columns) {
+    const response = await render(`/column/${article.slug}`);
+    assert.equal(response.status, 200, article.slug);
+    assert.ok((await response.text()).includes(article.title), article.slug);
+  }
 });
 
 test("publishes Kakao-first contact information without storing inquiry details", async () => {
