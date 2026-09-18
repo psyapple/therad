@@ -15,14 +15,23 @@
     "prebuild": "node scripts/sync-public-content.mjs --allow-stale && npm run generate:content",
     "build": "vinext build",
     "start": "vinext start",
-    "test": "npm run build && node --test tests/*.test.mjs",
-    "lint": "eslint app components lib scripts tests --max-warnings=0",
+    "test": "npm run build && npm run test:regression",
+    "test:regression": "node --import ./tests/mock-sanity.mjs --test tests/*.test.mjs",
+    "lint": "eslint app components lib scripts tests sanity sanity.config.ts sanity.cli.ts --max-warnings=0",
+    "typecheck": "tsc --noEmit",
+    "sanity:migrate": "sanity exec scripts/migrate-columns.ts --with-user-token",
     "db:generate": "drizzle-kit generate"
   },
   "dependencies": {
+    "@portabletext/react": "8.0.1",
+    "@sanity/client": "8.6.2",
+    "@sanity/image-url": "2.1.1",
     "drizzle-orm": "0.45.2",
+    "next-sanity": "13.3.4",
     "react": "19.2.6",
-    "react-dom": "19.2.6"
+    "react-dom": "19.2.6",
+    "sanity": "6.14.1",
+    "styled-components": "6.5.3"
   },
   "devDependencies": {
     "@cloudflare/vite-plugin": "1.37.1",

@@ -59,7 +59,8 @@ test("publishes crawlable robots with the dynamic sitemap origin", async () => {
   assert.match(robots, /User-Agent: \*/i);
   assert.match(robots, /Allow: \//i);
   assert.match(robots, new RegExp(`Sitemap: ${officialOrigin.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}/sitemap\\.xml`));
-  assert.doesNotMatch(robots, /Disallow:/i);
+  assert.match(robots, /Disallow: \/studio/i);
+  assert.doesNotMatch(robots, /Disallow: \/\s*$/im);
   assert.doesNotMatch(robots, /content|docs|scripts|lib|dist/i);
 });
 

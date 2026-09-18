@@ -54,6 +54,8 @@ type PageMetadataOptions = {
   openGraphDescription?: string;
   absoluteTitle?: boolean;
   socialImage?: "default" | "none";
+  socialImageUrl?: string;
+  origin?: string;
 };
 
 export async function createPageMetadata({
@@ -68,11 +70,13 @@ export async function createPageMetadata({
   openGraphDescription = description,
   absoluteTitle = false,
   socialImage = "default",
+  socialImageUrl,
+  origin: fixedOrigin,
 }: PageMetadataOptions): Promise<Metadata> {
-  const origin = await getSiteOrigin();
+  const origin = fixedOrigin || await getSiteOrigin();
   const canonical = absoluteSiteUrl(origin, path);
   const imageUrl = absoluteSiteUrl(origin, "/og.png");
-  const images = socialImage === "default"
+  const images = socialImageUrl ? [{ url: socialImageUrl, alt: title }] : socialImage === "default"
     ? [{ url: imageUrl, width: 1734, height: 907, alt: "새벽별 — 마음을 이해하는 일이 살아가는 데 도움이 되도록." }]
     : [];
 
@@ -109,7 +113,7 @@ export async function createPageMetadata({
       card: "summary_large_image",
       title: openGraphTitle,
       description: openGraphDescription,
-      images: socialImage === "default" ? [imageUrl] : [],
+      images: socialImageUrl ? [socialImageUrl] : socialImage === "default" ? [imageUrl] : [],
     },
   };
 }

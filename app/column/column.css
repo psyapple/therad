@@ -1,0 +1,66 @@
+.column-categories {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 0 0 36px;
+}
+.column-categories a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  border: 1px solid var(--line);
+  padding: 10px 18px;
+  border-radius: 24px;
+  font-size: 0.875rem;
+}
+.column-categories a[aria-current="page"] {
+  background: var(--navy);
+  color: var(--ivory);
+}
+.column-image {
+  margin: 0;
+}
+.column-image img {
+  display: block;
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+}
+.column-image figcaption {
+  color: var(--slate);
+  font-size: 0.875rem;
+  line-height: 1.7;
+  margin-top: 12px;
+}
+.column-archive-grid .archive-visual > .column-image {
+  width: 100%;
+  height: 100%;
+}
+.column-archive-grid .archive-visual img {
+  height: 100%;
+  object-fit: cover;
+}
+.column-archive-grid .archive-visual figcaption {
+  display: none;
+}
+.column-hero-image {
+  align-self: center;
+  max-height: 560px;
+  overflow: hidden;
+}
+.column-hero-image img {
+  max-height: 520px;
+  object-fit: contain;
+}
+.column-body > .column-image {
+  margin-block: 36px;
+}
+.column-body > p,
+.column-body > ul,
+.column-body > ol {
+  overflow-wrap: anywhere;
+}
+.column-status {
+  max-width: 760px;
+  line-height: 1.9;
+}

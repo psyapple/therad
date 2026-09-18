@@ -3,7 +3,7 @@ import { GuideExplorer } from "@/components/GuideExplorer";
 import { Header } from "@/components/Header";
 import { PageHero } from "@/components/PageHero";
 import Link from "@/components/SiteLink";
-import { columnArticles } from "@/lib/columns";
+import { getColumnArchive } from "@/lib/columns";
 import { guideArticles, guideCategories } from "@/lib/guide-all";
 import { createPageMetadata } from "@/lib/seo";
 
@@ -14,6 +14,7 @@ export function generateMetadata() {
 type GuidePageProps = { searchParams: Promise<{ category?: string }> };
 
 export default async function GuidePage({ searchParams }: GuidePageProps) {
+  const { articles: columnArticles } = await getColumnArchive();
   const requestedCategory = (await searchParams).category;
   const initialCategory = guideCategories.includes(requestedCategory ?? "") ? requestedCategory : "전체";
 
@@ -37,7 +38,7 @@ export default async function GuidePage({ searchParams }: GuidePageProps) {
           <section className="section guide-column-section">
             <div className="shell">
               <div className="section-head"><div><span className="section-kicker">FROM SAEBYEOKBYEOL</span><h2>COLUMN</h2><p className="section-description">상담과 마음에 대해<br />조금 더 오래 생각해본 것들.</p></div><Link className="arrow-link" href="/column">COLUMN 전체 보기 →</Link></div>
-              <div className="related-grid">{columnArticles.slice(0, 3).map((article) => <Link href={`/column/${article.slug}`} key={article.slug}><span>{article.author} · {article.publishedAt}</span><h3>{article.title}</h3><p>{article.description}</p><b>→</b></Link>)}</div>
+              <div className="related-grid">{columnArticles.slice(0, 3).map((article) => <Link href={`/column/${article.slug}`} key={article.slug}><span>{article.author} · {article.publishedAt.slice(0, 10)}</span><h3>{article.title}</h3><p>{article.description}</p><b>→</b></Link>)}</div>
             </div>
           </section>
         )}
