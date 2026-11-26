@@ -122,69 +122,6 @@
       }
     ]
   },
-  "notion": {
-    "title": "심리상담 가이드 _by 새벽/아오리",
-    "publicUrl": "https://www.notion.so/_by-336b160514098021a837d39682727b88",
-    "overview": "저는 심리학을 사랑하고, 공부하며 심리학으로 먹고 살고 있는 새벽/아오리입니다. 한국상담심리학회 상담심리사 자격으로 일을 하고 있어요 :) 이 페이지는 심리상담에대한 가이드를 이전부터, 그리고 스레드에서 쭉 적어가면서 휘발되지 않도록 만들어 본 페이지입니다.",
-    "updatedAt": "2026-04-30T18:41:01.403Z",
-    "sections": [
-      {
-        "title": "✅ 이 페이지가 제공하는 것",
-        "type": "sub_header"
-      },
-      {
-        "title": "✅ 이 페이지가 제공하지 않는 것 🚫",
-        "type": "sub_header"
-      },
-      {
-        "title": "🔔 가장 먼저 기억하고, 읽어주세요",
-        "type": "sub_header"
-      },
-      {
-        "title": "1️⃣ 상담 전 준비 체크리스트",
-        "type": "sub_header"
-      },
-      {
-        "title": "2️⃣상담사 선택 체크포인트",
-        "type": "sub_header"
-      },
-      {
-        "title": "N년차 상담사가 전하는 Tip",
-        "type": "toggle"
-      },
-      {
-        "title": "비대면 상담 팁",
-        "type": "sub_header"
-      },
-      {
-        "title": "좋은 상담에서 기대할 수 있는 변화",
-        "type": "sub_header"
-      },
-      {
-        "title": "무료/저렴한 심리상담에 대한 정보(클릭)",
-        "type": "sub_header"
-      },
-      {
-        "title": "3️⃣상담 중에 생겨나는 알아야 하는 것들",
-        "type": "sub_header"
-      },
-      {
-        "title": "상담 중에 발생할 수 있는 일들- 이상하지 않아요 자연스러움!",
-        "type": "toggle"
-      },
-      {
-        "title": "상담 중에 무언가 맞지 않을 때",
-        "type": "toggle"
-      }
-    ],
-    "checklist": [
-      "지금 나를 가장 힘들게 하는 생각, 감정, 사건을 1~3가지로 적는다.",
-      "언제부터였는지, 그동안 해봤던 대처 방식을 생각나는대로 정리한다.",
-      "상담에 간다면 거기에서 바라는 변화나 얻고 싶은 것을 적는다.",
-      "내가 원하는 상담 스타일을 생각해본다. 예: 지지적, 정리형, 조언형, 공감형, 직면형.",
-      "내가 감당 가능한 돈, 시간, 이동거리, 에너지를 현실적으로 가늠한다. 최소 10번은 갈 수 있도록!!"
-    ]
-  },
   "instagram": {
     "handle": "dawnstar_mindtherapy",
     "profileUrl": "https://www.instagram.com/dawnstar_mindtherapy/",

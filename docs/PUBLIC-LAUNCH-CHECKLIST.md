@@ -60,7 +60,7 @@
 
 - [x] 웹사이트 자체에는 회원가입, 상담기록 저장, 자체 상담문의 DB와 문의 template 서버 전송이 없습니다.
 - [x] 대표 문의채널은 새벽별 카카오채널입니다.
-- [x] 네이버 블로그, Instagram과 Notion은 외부 콘텐츠·소셜 채널로 구분합니다.
+- [x] 네이버 블로그, Instagram과 PSYAPPLE 심리상담 가이드는 외부 콘텐츠·소셜 채널로 구분합니다.
 - [x] `© 2026 새벽별 심리상담센터` 표기를 유지합니다.
 - [ ] Analytics, Meta Pixel, Kakao Pixel은 별도의 privacy/cookie 검토 전에는 설치하지 않습니다.
 

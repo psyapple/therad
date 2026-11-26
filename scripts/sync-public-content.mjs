@@ -70,56 +70,6 @@ async function fetchNaverBlog() {
   };
 }
 
-const notionText = (block) =>
-  (block?.properties?.title ?? [])
-    .map((segment) => segment?.[0] ?? "")
-    .join("")
-    .replace(/\s+/g, " ")
-    .trim();
-
-async function fetchNotionGuide() {
-  const response = await fetch("https://www.notion.so/api/v3/loadPageChunk", {
-    method: "POST",
-    headers: { "content-type": "application/json", "user-agent": "SaebyeokbyeolWebsite/1.0" },
-    body: JSON.stringify({
-      pageId: sources.notion.pageId,
-      limit: 100,
-      cursor: { stack: [] },
-      chunkNumber: 0,
-      verticalColumns: false,
-    }),
-  });
-  if (!response.ok) throw new Error(`Notion public page returned ${response.status}`);
-  const payload = await response.json();
-  const blocks = Object.fromEntries(
-    Object.entries(payload.recordMap?.block ?? {}).map(([id, record]) => [id, record?.value?.value]),
-  );
-  const rootBlock = blocks[sources.notion.pageId];
-  if (!rootBlock) throw new Error("Notion public page is not readable");
-  const topLevel = (rootBlock.content ?? []).map((id) => blocks[id]).filter(Boolean);
-  const overview = topLevel
-    .filter((block) => block.type === "text")
-    .map(notionText)
-    .find((text) => text.length > 90) ?? "";
-  const sections = topLevel
-    .filter((block) => ["sub_header", "toggle"].includes(block.type))
-    .map((block) => ({ title: notionText(block), type: block.type }))
-    .filter((section) => section.title && !/원문 링크|관련 스레드/i.test(section.title));
-  const checklist = topLevel
-    .filter((block) => block.type === "to_do")
-    .map(notionText)
-    .filter(Boolean);
-
-  return {
-    title: notionText(rootBlock),
-    publicUrl: sources.notion.publicUrl,
-    overview,
-    updatedAt: new Date(rootBlock.last_edited_time).toISOString(),
-    sections: sections.slice(0, 12),
-    checklist: checklist.slice(0, 8),
-  };
-}
-
 async function fetchInstagram() {
   const accountId = process.env.INSTAGRAM_BUSINESS_ACCOUNT_ID;
   const accessToken = process.env.INSTAGRAM_ACCESS_TOKEN;
@@ -172,21 +122,19 @@ const resolveSource = async (name, fetcher) => {
 };
 
 const blog = await resolveSource("blog", fetchNaverBlog);
-const notion = await resolveSource("notion", fetchNotionGuide);
 const instagram = await resolveSource("instagram", fetchInstagram);
-const updateTimes = [blog.updatedAt, notion.updatedAt, ...instagram.items.map((item) => item.publishedAt)]
+const updateTimes = [blog.updatedAt, ...instagram.items.map((item) => item.publishedAt)]
   .filter(Boolean)
   .map((value) => new Date(value).valueOf())
   .filter(Number.isFinite);
 const output = {
-  sourceUpdatedAt: new Date(Math.max(...updateTimes)).toISOString(),
+  sourceUpdatedAt: updateTimes.length ? new Date(Math.max(...updateTimes)).toISOString() : null,
   blog,
-  notion,
   instagram,
 };
 const serialized = `${JSON.stringify(output, null, 2)}\n`;
 const existing = await readFile(outputPath, "utf8").catch(() => "");
 if (existing !== serialized) await writeFile(outputPath, serialized, "utf8");
 
-console.log(`Public content ready: ${blog.items.length} blog posts, ${notion.sections.length} Notion sections, ${instagram.items.length} Instagram posts.`);
+console.log(`Public content ready: ${blog.items.length} blog posts, ${instagram.items.length} Instagram posts.`);
 if (errors.length) console.warn(`Using cached data for: ${errors.join("; ")}`);

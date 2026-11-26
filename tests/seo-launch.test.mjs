@@ -122,6 +122,29 @@ test("uses the default OG asset and brand symbol favicon", async () => {
   assert.ok((await stat(join(projectRoot, "public", "brand-symbol.png"))).size > 0);
 });
 
+test("links to the counseling guide in the footer and GUIDE overview only", async () => {
+  const guideUrl = "https://psyapple-counseling-guide.sandy0601.workers.dev/";
+  const href = `href="${guideUrl}"`;
+  for (const path of ["/", "/guide", `/guide/${generatedContent.guides[0].slug}`, "/privacy"]) {
+    const response = await render(path);
+    assert.equal(response.status, 200, path);
+    const html = await response.text();
+    const footer = html.match(/<footer\b[\s\S]*?<\/footer>/)?.[0];
+    assert.ok(footer?.includes(`${href} target="_blank" rel="noreferrer noopener"`), path);
+    assert.doesNotMatch(html, /NOTION GUIDE|notion\.(?:so|site)/i, path);
+    const main = html.match(/<main\b[\s\S]*?<\/main>/)?.[0] ?? "";
+    if (path === "/guide") {
+      assert.equal(main.split(href).length - 1, 1);
+      for (const title of ["상담의 시작과 과정", "일상의 자기돌봄", "아동·청소년 상담"]) {
+        assert.ok(main.includes(title), title);
+      }
+      assert.ok(main.includes('id="guide-archive"'));
+    } else {
+      assert.ok(!main.includes(href), path);
+    }
+  }
+});
+
 test("renders current privacy guidance and the custom 404", async () => {
   const privacy = await render("/privacy");
   assert.equal(privacy.status, 200);

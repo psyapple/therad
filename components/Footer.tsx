@@ -1,5 +1,6 @@
 import Link from "@/components/SiteLink";
 import { BrandLogo } from "./BrandLogo";
+import { counselingGuide } from "@/lib/counseling-guide";
 import { publicContent } from "@/lib/public-content";
 import { kakaoChannelUrl } from "@/lib/contact";
 
@@ -29,7 +30,7 @@ export function Footer() {
           <Link href="/contact">상담 및 협업 문의</Link>
           <a href={kakaoChannelUrl} target="_blank" rel="noreferrer noopener">KAKAO CHANNEL ↗</a>
           <a href={publicContent.blog.profileUrl} target="_blank" rel="noreferrer">NAVER BLOG ↗</a>
-          <a href={publicContent.notion.publicUrl} target="_blank" rel="noreferrer">NOTION GUIDE ↗</a>
+          <a href={counselingGuide.url} target="_blank" rel="noreferrer noopener">심리상담 가이드 ↗</a>
           <a href={publicContent.instagram.profileUrl} target="_blank" rel="noreferrer">INSTAGRAM ↗</a>
         </div>
         <div className="footer-column footer-note">

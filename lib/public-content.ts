@@ -10,7 +10,7 @@ export type PublicPost = {
 };
 
 export type PublicContent = {
-  sourceUpdatedAt: string;
+  sourceUpdatedAt: string | null;
   blog: {
     title: string;
     description: string;
@@ -19,14 +19,6 @@ export type PublicContent = {
     logoSourceUrl: string;
     updatedAt: string | null;
     items: PublicPost[];
-  };
-  notion: {
-    title: string;
-    publicUrl: string;
-    overview: string;
-    updatedAt: string;
-    sections: Array<{ title: string; type: string }>;
-    checklist: string[];
   };
   instagram: {
     handle: string;

@@ -26,7 +26,7 @@ npm test
 사이트에 표시되는 외부 데이터의 원본은 `data/content-sources.json`에서 관리합니다.
 
 - 네이버 블로그: 공개 RSS에서 센터 소개와 최신 글 8개를 가져옵니다.
-- 노션: 공개된 심리상담 가이드에서 소개·목차·상담 전 체크리스트를 가져옵니다.
+- PSYAPPLE 심리상담 가이드: 공통 푸터와 GUIDE에서 외부 가이드 전체로 연결합니다. GUIDE의 주제별 소개는 `lib/counseling-guide.ts`에서 관리합니다.
 - 인스타그램: 프로필은 항상 연결되며, 공식 Graph API 환경 변수가 있으면 최신 게시물도 가져옵니다.
 
 수동으로 최신 데이터를 반영하려면:
@@ -54,7 +54,7 @@ INSTAGRAM_ACCESS_TOKEN=
 - `components/`: 공통 UI와 공개 채널 스트림
 - `lib/content.ts`: 사이트 자체 가이드·상담 서비스 데이터
 - `data/public-content.json`: 외부 공개 소스의 검증된 스냅샷
-- `scripts/sync-public-content.mjs`: 블로그·노션·인스타그램 동기화
+- `scripts/sync-public-content.mjs`: 블로그·인스타그램 동기화
 - `public/brand-logo.png`: 네이버 블로그 프로필에 공개된 공식 로고 원본
 
 상담 기록, 댓글·답글, 개인 메시지처럼 민감하거나 맥락이 필요한 데이터는 자동으로 게시하지 않습니다.

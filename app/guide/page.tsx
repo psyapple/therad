@@ -4,6 +4,7 @@ import { Header } from "@/components/Header";
 import { PageHero } from "@/components/PageHero";
 import Link from "@/components/SiteLink";
 import { getColumnArchive } from "@/lib/columns";
+import { counselingGuide } from "@/lib/counseling-guide";
 import { guideArticles, guideCategories } from "@/lib/guide-all";
 import { createPageMetadata } from "@/lib/seo";
 
@@ -29,6 +30,28 @@ export default async function GuidePage({ searchParams }: GuidePageProps) {
           title={<>알고 나면 덜 막막해지는<br /><em>마음의 사용 설명서.</em></>}
           description="상담을 선택하는 일부터 감정과 관계를 이해하는 일까지. 전문적인 심리학을 오늘의 삶에서 사용할 수 있는 언어로 옮깁니다."
         />
+        <section className="section guide-column-section counseling-guide" aria-labelledby="counseling-guide-title">
+          <div className="shell">
+            <div className="section-head">
+              <div>
+                <span className="section-kicker">EXTERNAL READING</span>
+                <h2 id="counseling-guide-title">{counselingGuide.title}</h2>
+                <p className="section-description">{counselingGuide.description}</p>
+              </div>
+            </div>
+            <ul className="counseling-guide-topics">
+              {counselingGuide.topics.map((topic) => (
+                <li key={topic.title}>
+                  <h3>{topic.title}</h3>
+                  <p>{topic.description}</p>
+                </li>
+              ))}
+            </ul>
+            <a className="button button-ghost" href={counselingGuide.url} target="_blank" rel="noreferrer noopener">
+              심리상담 가이드 전체 보기 <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </section>
         <section className="section guide-archive-section" id="guide-archive">
           <div className="shell">
             <GuideExplorer articles={guideArticles} initialCategory={initialCategory} />
